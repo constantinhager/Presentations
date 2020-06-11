@@ -71,7 +71,7 @@ stages:
               provider: "azurerm"
               command: "init"
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
-              backendServiceArm: "UAI"
+              backendServiceArm: "MSDN"
               backendAzureRmResourceGroupName: "tfstate-rg"
               backendAzureRmStorageAccountName: "uaiterraformstate"
               backendAzureRmContainerName: "managementgovernance"
@@ -91,7 +91,7 @@ stages:
               command: "plan"
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
               commandOptions: "-out main.tfplan"
-              environmentServiceNameAzureRM: "UAI"
+              environmentServiceNameAzureRM: "MSDN"
             displayName: "Terrafom plan backup01"
 
           - task: TerraformTaskV1@0
@@ -100,5 +100,5 @@ stages:
               command: "apply"
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
               commandOptions: "main.tfplan"
-              environmentServiceNameAzureRM: "UAI"
+              environmentServiceNameAzureRM: "MSDN"
             displayName: "Terrafom apply backup01"
