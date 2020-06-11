@@ -66,6 +66,12 @@ stages:
             inputs:
               terraformVersion: "0.12.25"
 
+          - task: CmdLine@2
+            inputs:
+              script: |
+                cd $(System.DefaultWorkingDirectory)
+                ls -la
+
           - task: TerraformTaskV1@0
             inputs:
               provider: "azurerm"
