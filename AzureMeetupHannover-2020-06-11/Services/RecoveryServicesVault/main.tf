@@ -1,5 +1,5 @@
 module "ResourceGroup" {
-  source = "../global/ResourceGroup"
+  source = "../../global/ResourceGroup"
 
   resource_group_name = "meetupbackup-rg"
   tag_creator         = "Constantin Hager"
@@ -8,7 +8,7 @@ module "ResourceGroup" {
 }
 
 module "RecoveryServicesVault" {
-  source = "../global/RecoveryServicesVault"
+  source = "../../global/RecoveryServicesVault"
 
   resource_group_name          = module.ResourceGroup.resource_group_name
   recovery_services_vault_name = "meetupbackupvault"
