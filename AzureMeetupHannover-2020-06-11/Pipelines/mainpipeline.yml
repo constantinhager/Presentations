@@ -70,7 +70,7 @@ stages:
             inputs:
               provider: "azurerm"
               command: "init"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/services/RecoveryServicesVault"
               backendServiceArm: "MSDN"
               backendAzureRmResourceGroupName: "meetup-rg"
               backendAzureRmStorageAccountName: "meetupterraformstate"
@@ -82,14 +82,14 @@ stages:
             inputs:
               provider: "azurerm"
               command: "validate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/services/RecoveryServicesVault"
             displayName: "Terrafom Validate meetupbackupvault"
 
           - task: TerraformTaskV1@0
             inputs:
               provider: "azurerm"
               command: "plan"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/services/RecoveryServicesVault"
               commandOptions: "-out main.tfplan"
               environmentServiceNameAzureRM: "MSDN"
             displayName: "Terrafom plan meetupbackupvault"
@@ -98,7 +98,7 @@ stages:
             inputs:
               provider: "azurerm"
               command: "apply"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/services/RecoveryServicesVault"
               commandOptions: "main.tfplan"
               environmentServiceNameAzureRM: "MSDN"
             displayName: "Terrafom apply meetupbackupvault"
