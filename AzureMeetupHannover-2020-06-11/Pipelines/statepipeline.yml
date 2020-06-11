@@ -9,7 +9,7 @@ trigger:
       - master
   paths:
     include:
-      - "UAI/services/StorageAccounts/State/*"
+      - "DeployStateFile/*"
 
 pool:
   vmImage: "ubuntu-latest"
@@ -17,7 +17,7 @@ pool:
 steps:
   - task: AzureCLI@2
     inputs:
-      azureSubscription: "UAI"
+      azureSubscription: "MSDN"
       scriptType: "pscore"
       scriptLocation: "scriptPath"
       scriptPath: "DeployStateFile/StateFile.ps1"
