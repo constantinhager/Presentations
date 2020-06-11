@@ -8,9 +8,9 @@ trigger:
       - master
   paths:
     include:
-      - UAI/services/*
+      - AzureMeetupHannover-2020-06-11/Services/*
     exclude:
-      - UAI/services/StorageAccounts/State/*
+      - AzureMeetupHannover-2020-06-11/DeployStateFile/*
 
 stages:
   - stage: Build
@@ -26,14 +26,14 @@ stages:
               PathtoPublish: "$(Build.SourcesDirectory)/TerraformModules"
               ArtifactName: "global"
               publishLocation: "Container"
-            displayName: "Create Artifact for the Global Folder"
+            displayName: "Create Artifact for the TerraformModules Folder"
 
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: "$(Build.SourcesDirectory)/Services"
               ArtifactName: "services"
               publishLocation: "Container"
-            displayName: "Create Artifact for the POC Folder"
+            displayName: "Create Artifact for the Services Folder"
 
   - stage: Deploy
     dependsOn: Build
@@ -52,7 +52,7 @@ stages:
               downloadType: "single"
               artifactName: "global"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download Azure Global Artifact"
+            displayName: "Download Azure TerraformModules Artifact"
 
           - task: DownloadBuildArtifacts@0
             inputs:
@@ -60,7 +60,7 @@ stages:
               downloadType: "single"
               artifactName: "services"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download Azure POC Artifact"
+            displayName: "Download Azure Services Artifact"
 
           - task: TerraformInstaller@0
             inputs:
@@ -72,18 +72,18 @@ stages:
               command: "init"
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
               backendServiceArm: "MSDN"
-              backendAzureRmResourceGroupName: "tfstate-rg"
-              backendAzureRmStorageAccountName: "uaiterraformstate"
+              backendAzureRmResourceGroupName: "meetup-rg"
+              backendAzureRmStorageAccountName: "meetupterraformstate"
               backendAzureRmContainerName: "managementgovernance"
-              backendAzureRmKey: "backup01.tfstate"
-            displayName: "Terrafom Init backup01"
+              backendAzureRmKey: "meetupbackupvault.tfstate"
+            displayName: "Terrafom Init meetupbackupvault"
 
           - task: TerraformTaskV1@0
             inputs:
               provider: "azurerm"
               command: "validate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
-            displayName: "Terrafom Validate backup01"
+            displayName: "Terrafom Validate meetupbackupvault"
 
           - task: TerraformTaskV1@0
             inputs:
@@ -92,7 +92,7 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
               commandOptions: "-out main.tfplan"
               environmentServiceNameAzureRM: "MSDN"
-            displayName: "Terrafom plan backup01"
+            displayName: "Terrafom plan meetupbackupvault"
 
           - task: TerraformTaskV1@0
             inputs:
@@ -101,4 +101,4 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/Services/RecoveryServicesVault"
               commandOptions: "main.tfplan"
               environmentServiceNameAzureRM: "MSDN"
-            displayName: "Terrafom apply backup01"
+            displayName: "Terrafom apply meetupbackupvault"
