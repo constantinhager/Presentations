@@ -1,6 +1,6 @@
 # Presentations
 
-Repository for all my presentation
+Repository for all my presentations
 
 | Date       | Presentation                                                |
 | ---------- | ----------------------------------------------------------- |
