@@ -16,7 +16,7 @@ module "RecoveryServicesVault" {
   sku = "Standard"
 
   tag_creator  = "Constantin Hager"
-  tag_function = "Recovery services Vault for Azure Meetup"
+  tag_function = "Recovery services Vault for hagerh"
 
   location = "West Europe"
 }
