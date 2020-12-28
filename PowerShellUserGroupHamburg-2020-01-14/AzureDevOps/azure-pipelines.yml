@@ -1,0 +1,72 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+jobs:
+- job: 'SecretManagement'
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: PowerShell@2
+    inputs:
+      filePath: 'InstallAzureModules.ps1'
+      pwsh: true
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+    displayName: 'Install the needed Azure PowerShell Modules'
+  - task: PowerShell@2
+    inputs:
+      filePath: 'AuthenticateAzure.ps1'
+      arguments: '-ClientSecret "$(ClientSecret)" -ClientId "$(ClientID)" -TenantID "$(TenantID)" -SubscriptionID "$(SubscriptionID)"'
+      pwsh: true
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+    displayName: 'Authenticate to Azure with an Azure Service principal with arg'
+  - task: PowerShell@2
+    inputs:
+      filePath: 'AuthenticateAzure_env.ps1'
+      pwsh: true
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+    displayName: 'Authenticate to Azure with an Azure Service principal with env'
+    env:
+      ClientSecret: $(ClientSecret)
+      ClientID: $(ClientID)
+      TenantID: $(TenantID)
+      SubscriptionID: $(SubscriptionID)
+
+  - task: PowerShell@2
+    inputs:
+      filePath: 'SecretManagement.ps1'
+      pwsh: true
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+    displayName: 'SecretManagement'
+    name: 'secmgmt'
+    env:
+      AZKeyVaultName: $(AZKeyVaultName)
+      SubscriptionID: $(SubscriptionID)
+
+- job: 'RetrieveMultiJobVariable'
+  dependsOn: 'SecretManagement'
+  pool:
+    vmImage: 'ubuntu-latest'
+  variables:
+  - name: StorageAccountNameSecret
+    value: $[dependencies.SecretManagement.outputs['secmgmt.PSUGMultiJobSecret']]
+  - name: StorageAccountNameNonSecret
+    value: $[dependencies.SecretManagement.outputs['secmgmt.PSUGMultiJobNonSecret']]
+
+  steps:
+  - task: AzurePowerShell@5
+    inputs:
+      azureSubscription: 'CHAzure'
+      ScriptType: 'FilePath'
+      ScriptPath: 'GetStorageAccount.ps1'
+      azurePowerShellVersion: 'LatestVersion'
+      pwsh: true
+      workingDirectory: '$(Build.ArtifactStagingDirectory)'
+    env:
+      StorageAccountNameSecret: $(StorageAccountNameSecret)
+      StorageAccountName: $(StorageAccountNameNonSecret)
