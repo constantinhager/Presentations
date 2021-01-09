@@ -1,4 +1,4 @@
-Install-Module -Name Microsoft.PowerShell.SecretManagement -AllowPrerelease -Force
+Install-Module -Name Microsoft.PowerShell.SecretManagement -Force
 
 Register-SecretVault -Name AzKeyVault -ModuleName Az.KeyVault -VaultParameters @{
     AZKVaultName   = $env:AZKeyVaultName
