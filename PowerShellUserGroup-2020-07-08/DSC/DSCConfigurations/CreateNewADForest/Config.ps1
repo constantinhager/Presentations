@@ -98,8 +98,11 @@ configuration CreateNewADForest
     }
 }
 
-$DomainAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainAdmin, $DomainAdminPwd
-$SafeModeCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList 'DO_NOT_USE', $SafeModepwd
+$DomainAdminSecure = ConvertTo-SecureString -String $DomainAdminPwd -Force -AsPlainText
+$SafeModeSecure = ConvertTo-SecureString -String $SafeModepwd -Force -AsPlainText
+
+$DomainAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainAdmin, $DomainAdminSecure
+$SafeModeCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList 'DO_NOT_USE', $SafeModeSecure
 
 $splat = @{
     DomainAdminCredential = $DomainAdminCredential
