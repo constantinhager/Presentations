@@ -1,21 +1,48 @@
 param
 (
-    # Parameter help description
     [Parameter(Mandatory)]
     [String]
-    $OutputPath
+    $OutputPath,
+
+    [Parameter(Mandatory)]
+    [string]
+    $SafeModepwd,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainAdmin,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainAdminPwd,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainName
 )
 
 configuration AddDCToExistingForest
 {
+    param
+    (
+        [Parameter(Mandatory)]
+        [pscredential]
+        $DomainAdminCredential,
+
+        [Parameter(Mandatory)]
+        [pscredential]
+        $SafeModeCredential,
+
+        [Parameter(Mandatory)]
+        [string]
+        $DomainName
+    )
+
+
     Import-DscResource -ModuleName ActiveDirectoryDSC
     Import-DscResource -ModuleName ComputerManagementDSC
     Import-DscResource -ModuleName StorageDSC
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
-
-    $DomainAdminCredential = Get-AutomationPSCredential -Name 'DomainAdminCredential'
-    $SafeModeCredential = Get-AutomationPSCredential -Name 'SafeModeCredential'
-    $DomainName = Get-AutomationVariable -Name 'DomainName'
 
     node localhost
     {
@@ -81,4 +108,14 @@ configuration AddDCToExistingForest
     }
 }
 
-AddDCToExistingForest -OutputPath $OutputPath
+$DomainAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainAdmin, $DomainAdminPwd
+$SafeModeCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList 'DO_NOT_USE', $SafeModepwd
+
+$splat = @{
+    DomainAdminCredential = $DomainAdminCredential
+    OutputPath            = $OutputPath
+    SafeModeCredential    = $SafeModeCredential
+    DomainName            = $DomainName
+}
+
+AddDCToExistingForest @splat

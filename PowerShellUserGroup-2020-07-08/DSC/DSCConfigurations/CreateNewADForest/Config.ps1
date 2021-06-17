@@ -1,39 +1,62 @@
 param
 (
-    # Parameter help description
     [Parameter(Mandatory)]
     [String]
-    $OutputPath
+    $OutputPath,
+
+    [Parameter(Mandatory)]
+    [string]
+    $SafeModepwd,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainAdmin,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainAdminPwd,
+
+    [Parameter(Mandatory)]
+    [string]
+    $DomainName
 )
 
 configuration CreateNewADForest
 {
+    param
+    (
+        [Parameter(Mandatory)]
+        [pscredential]
+        $DomainAdminCredential,
+
+        [Parameter(Mandatory)]
+        [pscredential]
+        $SafeModeCredential,
+
+        [Parameter(Mandatory)]
+        [string]
+        $DomainName
+    )
+
     Import-DscResource -ModuleName ActiveDirectoryDSC
     Import-DscResource -ModuleName ComputerManagementDSC
     Import-DscResource -ModuleName StorageDSC
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
 
-    $DomainAdminCredential = Get-AutomationPSCredential -Name "DomainAdminCredential"
-    $SafeModeCredential = Get-AutomationPSCredential -Name "SafeModeCredential"
-    $DomainName = Get-AutomationVariable -Name "DomainName"
-
     node localhost
     {
-        WindowsFeature ADDSInstall
-        {
+        WindowsFeature ADDSInstall {
             Ensure = 'Present'
             Name   = 'AD-Domain-Services'
         }
 
-        WindowsFeature 'InstallADDomainServicesFeature'
-        {
+        WindowsFeature 'InstallADDomainServicesFeature' {
             Ensure    = 'Present'
             Name      = 'AD-Domain-Services'
             DependsOn = '[WindowsFeature]ADDSInstall'
         }
 
-        WindowsFeature 'RSATADPowerShell'
-        {
+        WindowsFeature 'RSATADPowerShell' {
             Ensure    = 'Present'
             Name      = 'RSAT-AD-PowerShell'
 
@@ -47,10 +70,10 @@ configuration CreateNewADForest
             RetryCount       = 30
         }
 
-        Disk DomainDataVolume
+        Get-Disk DomainDataVolume
         {
             DiskId      = 2
-            DriveLetter = "E"
+            DriveLetter = 'E'
             DependsOn   = '[WaitForDisk]Disk'
         }
 
@@ -66,13 +89,23 @@ configuration CreateNewADForest
             DomainName                    = $DomainName
             Credential                    = $DomainAdminCredential
             SafeModeAdministratorPassword = $SafeModeCredential
-            DatabasePath                  = "E:\NTDS"
-            LogPath                       = "E:\NTDS"
-            SysvolPath                    = "E:\SYSVOL"
+            DatabasePath                  = 'E:\NTDS'
+            LogPath                       = 'E:\NTDS'
+            SysvolPath                    = 'E:\SYSVOL'
             DependsOn                     = '[WindowsFeature]ADDSInstall', '[Disk]DomainDataVolume', '[PendingReboot]BeforeDC'
             ForestMode                    = 'WinThreshold'
         }
     }
 }
 
-CreateNewADForest -OutputPath $OutputPath
+$DomainAdminCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $DomainAdmin, $DomainAdminPwd
+$SafeModeCredential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList 'DO_NOT_USE', $SafeModepwd
+
+$splat = @{
+    DomainAdminCredential = $DomainAdminCredential
+    OutputPath            = $OutputPath
+    SafeModeCredential    = $SafeModeCredential
+    DomainName            = $DomainName
+}
+
+CreateNewADForest @splat
