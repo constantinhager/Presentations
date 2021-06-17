@@ -1,3 +1,11 @@
+param
+(
+    # Parameter help description
+    [Parameter(Mandatory)]
+    [String]
+    $OutputPath
+)
+
 configuration AddDCToExistingForest
 {
     Import-DscResource -ModuleName ActiveDirectoryDSC
@@ -5,14 +13,13 @@ configuration AddDCToExistingForest
     Import-DscResource -ModuleName StorageDSC
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
 
-    $DomainAdminCredential = Get-AutomationPSCredential -Name "DomainAdminCredential"
-    $SafeModeCredential = Get-AutomationPSCredential -Name "SafeModeCredential"
-    $DomainName = Get-AutomationVariable -Name "DomainName"
+    $DomainAdminCredential = Get-AutomationPSCredential -Name 'DomainAdminCredential'
+    $SafeModeCredential = Get-AutomationPSCredential -Name 'SafeModeCredential'
+    $DomainName = Get-AutomationVariable -Name 'DomainName'
 
     node localhost
     {
-        WindowsFeature ADDSInstall
-        {
+        WindowsFeature ADDSInstall {
             Ensure = 'Present'
             Name   = 'AD-Domain-Services'
         }
@@ -24,10 +31,10 @@ configuration AddDCToExistingForest
             RetryCount       = 30
         }
 
-        Disk DomainDataVolume
+        Get-Disk DomainDataVolume
         {
             DiskId      = 2
-            DriveLetter = "E"
+            DriveLetter = 'E'
             DependsOn   = '[WaitForDisk]Disk'
         }
 
@@ -38,14 +45,12 @@ configuration AddDCToExistingForest
             DependsOn        = '[WindowsFeature]ADDSInstall', '[Disk]DomainDataVolume'
         }
 
-        WindowsFeature 'InstallADDomainServicesFeature'
-        {
+        WindowsFeature 'InstallADDomainServicesFeature' {
             Ensure = 'Present'
             Name   = 'AD-Domain-Services'
         }
 
-        WindowsFeature 'RSATADPowerShell'
-        {
+        WindowsFeature 'RSATADPowerShell' {
             Ensure    = 'Present'
             Name      = 'RSAT-AD-PowerShell'
 
@@ -76,4 +81,4 @@ configuration AddDCToExistingForest
     }
 }
 
-AddDCToExistingForest
+AddDCToExistingForest -OutputPath $OutputPath

@@ -1,3 +1,11 @@
+param
+(
+    # Parameter help description
+    [Parameter(Mandatory)]
+    [String]
+    $OutputPath
+)
+
 configuration CreateNewADForest
 {
     Import-DscResource -ModuleName ActiveDirectoryDSC
@@ -67,4 +75,4 @@ configuration CreateNewADForest
     }
 }
 
-CreateNewADForest
+CreateNewADForest -OutputPath $OutputPath

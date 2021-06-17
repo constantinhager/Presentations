@@ -1,3 +1,11 @@
+param
+(
+    # Parameter help description
+    [Parameter(Mandatory)]
+    [String]
+    $OutputPath
+)
+
 configuration CreateFile {
 
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
@@ -14,4 +22,4 @@ configuration CreateFile {
     }
 }
 
-CreateFile
+CreateFile -OutputPath $OutputPath
