@@ -10,7 +10,7 @@ module "ResourceGroup" {
 module "AutomationAccount" {
   source = "../../global/AutomationAccount"
 
-  automation_account_name = "chAutomationAcccountTest"
+  automation_account_name = "psugDSC"
   location                = "West Europe"
   resource_group_name     = module.ResourceGroup.resource_group_name
   tag_creator             = "Constantin Hager"
