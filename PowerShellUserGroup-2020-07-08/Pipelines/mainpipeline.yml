@@ -67,3 +67,4 @@ stages:
               backendAzureRmKey: "psug.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/automationaccount"
               description: "PSUG automation account"
+              planparameters: "automation_account_name=${{variables.automationAccountName}}"

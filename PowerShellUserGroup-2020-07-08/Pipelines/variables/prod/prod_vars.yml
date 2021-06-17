@@ -7,3 +7,9 @@ variables:
     value: tfstate-rg
   - name: backendAzureRmStorageAccountName
     value: chterraformbestpractices
+  - name: domainName
+    value: psug.local
+  - name: domainAdmin
+    value: psug\azureuser
+  - name: automationAccountName
+    value: psugDSC

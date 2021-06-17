@@ -16,6 +16,8 @@ parameters:
     type: string
   - name: description
     type: string
+  - name: planparameters
+    type: string
 
 
 steps:
@@ -48,7 +50,7 @@ steps:
     inputs:
       provider: 'azurerm'
       command: 'plan'
-      commandOptions: '-out=${BUILD_BUILDNUMBER}.tfplan'
+      commandOptions: '-out=${BUILD_BUILDNUMBER}.tfplan ${{ parameters.planparameters }}'
       workingDirectory: '${{ parameters.workingDirectory }}'
       environmentServiceNameAzureRM: '${{ parameters.serviceConnectionName }}'
 
