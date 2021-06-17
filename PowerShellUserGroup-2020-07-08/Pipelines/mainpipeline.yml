@@ -9,14 +9,14 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/Terraform/global"
+              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/Terraform/global"
               ArtifactName: "global"
               publishLocation: "Container"
             displayName: "Create Artifact for the global folder"
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/Terraform/services"
+              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/Terraform/services"
               ArtifactName: "psug"
               publishLocation: "Container"
             displayName: "Create Artifact for all creaton services"
