@@ -9,7 +9,7 @@ variables:
   - name: domainName
     value: psug.local
   - name: domainAdmin
-    value: psug\\azureuser
+    value: psug\azureuser
 
 stages:
   - stage: Build
@@ -35,7 +35,7 @@ stages:
               arguments: >
                 "-OutputPath "$(Build.ArtifactStagingDirectory)""
                 "-SafeModepwd "$env:SafeModePwd""
-                "-DomainAdmin "$(domainAdmin)""
+                "-DomainAdmin $(domainAdmin)"
                 "-DomainAdminPwd "$env:DomainAdminPwd""
                 "-DomainName "$(domainName)""
             env:
