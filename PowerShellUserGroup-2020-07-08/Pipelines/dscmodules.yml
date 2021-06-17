@@ -5,6 +5,12 @@ trigger:
       - PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations
       - PowerShellUserGroup-2020-07-08/Pipelines/dscmodules.yml
 
+variables:
+  - name: domainName
+    value: psug.local
+  - name: domainAdmin
+    value: psug\azureuser
+
 stages:
   - stage: Build
     jobs:
@@ -26,7 +32,15 @@ stages:
               targetType: "filepath"
               filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
               pwsh: false
-              arguments: "-OutputPath $(Build.ArtifactStagingDirectory)"
+              arguments: >
+                "-OutputPath $(Build.ArtifactStagingDirectory)"
+                "-SafeModepwd $env:SafeModePwd"
+                "-DomainAdmin $(domainAdmin)"
+                "-DomainAdminPwd $env:DomainAdminPwd"
+                "-DomainName $(domainName)"
+            env:
+              DomainAdminPwd: $(DomainAdminPwd)
+              SafeModePwd: $(SafeModepwd)
             displayName: Compile CreateNewADForest
 #          - task: PublishBuildArtifacts@1
 #            inputs:
