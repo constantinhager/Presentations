@@ -1,3 +1,10 @@
+# specific path build
+trigger:
+  paths:
+    include:
+    - PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations
+    - PowerShellUserGroup-2020-07-08/Pipelines/dscmodules.yml
+
 stages:
   - stage: Build
     jobs:
