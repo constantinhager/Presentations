@@ -19,7 +19,6 @@ stages:
               targetType: "filepath"
               filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/NeededModules.ps1"
               pwsh: false
-              arguments: "-OutpuPath $(Build.ArtifactStagingDirectory)"
             displayName: Install Needed Modules
 
           - task: PowerShell@2
@@ -27,7 +26,7 @@ stages:
               targetType: "filepath"
               filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
               pwsh: false
-              arguments: "-OutpuPath $(Build.ArtifactStagingDirectory)"
+              arguments: "-OutputPath $(Build.ArtifactStagingDirectory)"
             displayName: Compile CreateNewADForest
 #          - task: PublishBuildArtifacts@1
 #            inputs:
