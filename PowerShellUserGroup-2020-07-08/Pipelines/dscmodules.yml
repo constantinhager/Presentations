@@ -1,0 +1,62 @@
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.SourcesDirectory)/Terraform/global"
+              ArtifactName: "global"
+              publishLocation: "Container"
+            displayName: "Create Artifact for the global folder"
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.SourcesDirectory)/Terraform/services"
+              ArtifactName: "creaton"
+              publishLocation: "Container"
+            displayName: "Create Artifact for all creaton services"
+
+  - stage: AzureAutomationAccount
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "creaton"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download creaton artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "managementgovernance"
+              backendAzureRmKey: "allowedlocations.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/creaton/policy/allowedlocations"
+              description: "Allowed Locations"

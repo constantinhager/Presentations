@@ -1,0 +1,9 @@
+variables:
+  - name: terraformVersion
+    value: 1.0.0
+  - name: serviceConnectionName
+    value: terraform-sp
+  - name: backendAzureRmResourceGroupName
+    value: terraformRG
+  - name: backendAzureRmStorageAccountName
+    value: terraformnsa

@@ -1,0 +1,9 @@
+variables:
+  - name: terraformVersion
+    value: 1.0.0
+  - name: serviceConnectionName
+    value: MSDN
+  - name: backendAzureRmResourceGroupName
+    value: tfstate-rg
+  - name: backendAzureRmStorageAccountName
+    value: chterraformbestpractices
