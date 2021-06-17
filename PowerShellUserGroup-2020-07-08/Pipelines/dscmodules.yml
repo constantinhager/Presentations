@@ -93,12 +93,13 @@ stages:
               script: >
                 Rename-Item -Path "$(Build.ArtifactStagingDirectory)\localhost.mof" -NewName 'CreateFile.mof'
             displayName: Rename file CreateFile.mof
-#          - task: PublishBuildArtifacts@1
-#            inputs:
-#              PathtoPublish: "$(Build.SourcesDirectory)/Terraform/services"
-#              ArtifactName: "creaton"
-#              publishLocation: "Container"
-#            displayName: "Create Artifact for all creaton services"
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "mof"
+              publishLocation: "Container"
+            displayName: "Create Artifact for all mof files"
 #
 #  - stage: AzureAutomationAccount
 #    dependsOn: Build
