@@ -5,6 +5,10 @@ param
     $OutputPath,
 
     [Parameter(Mandatory)]
+    [String]
+    $ConfigPath,
+
+    [Parameter(Mandatory)]
     [string]
     $SafeModepwd,
 
@@ -58,7 +62,7 @@ configuration AddDCToExistingForest
             RetryCount       = 30
         }
 
-        Disk DomainDataVolume
+        Get-Disk DomainDataVolume
         {
             DiskId      = 2
             DriveLetter = 'E'
@@ -119,6 +123,7 @@ $splat = @{
     OutputPath            = $OutputPath
     SafeModeCredential    = $SafeModeCredential
     DomainName            = $DomainName
+    ConfigurationData     = $ConfigPath
 }
 
 AddDCToExistingForest @splat
