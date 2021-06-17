@@ -38,6 +38,7 @@ stages:
                 -DomainAdmin "$(domainAdmin)"
                 -DomainAdminPwd "$env:DomainAdminPwd"
                 -DomainName "$(domainName)"
+                -ConfigPath "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
