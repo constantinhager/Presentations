@@ -34,9 +34,9 @@ stages:
               pwsh: false
               arguments: >
                 "-OutputPath "$(Build.ArtifactStagingDirectory)""
-                "-SafeModepwd $env:SafeModePwd"
+                "-SafeModepwd "$env:SafeModePwd""
                 "-DomainAdmin "$(domainAdmin)""
-                "-DomainAdminPwd $env:DomainAdminPwd"
+                "-DomainAdminPwd "$env:DomainAdminPwd""
                 "-DomainName "$(domainName)""
             env:
               DomainAdminPwd: $(DomainAdminPwd)
