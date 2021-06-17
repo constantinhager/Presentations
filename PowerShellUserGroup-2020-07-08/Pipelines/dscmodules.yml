@@ -9,7 +9,7 @@ variables:
   - name: domainName
     value: psug.local
   - name: domainAdmin
-    value: psug\azureuser
+    value: psug\\azureuser
 
 stages:
   - stage: Build
