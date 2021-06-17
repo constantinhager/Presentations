@@ -1,5 +1,5 @@
 module "ResourceGroup" {
-  source = "../../Global/ResourceGroup"
+  source = "../../global/ResourceGroup"
 
   resource_group_name = "UserGroup-rg"
   tag_creator         = "Constantin Hager"
@@ -8,7 +8,7 @@ module "ResourceGroup" {
 }
 
 module "AutomationAccount" {
-  source = "../../Global/AutomationAccount"
+  source = "../../global/AutomationAccount"
 
   automation_account_name = "chAutomationAcccountTest"
   location                = "West Europe"
@@ -18,7 +18,7 @@ module "AutomationAccount" {
 }
 
 module "VariableDomainName" {
-  source = "../../Global/AutomationAccountStringVariable"
+  source = "../../global/AutomationAccountStringVariable"
 
   resource_group_name     = module.ResourceGroup.resource_group_name
   automation_account_name = module.AutomationAccount.automation_account_name
@@ -29,7 +29,7 @@ module "VariableDomainName" {
 }
 
 module "DomainAdminCredential" {
-  source = "../../Global/AutomationCredential"
+  source = "../../global/AutomationCredential"
 
   automation_account_name = module.AutomationAccount.automation_account_name
   resource_group_name     = module.ResourceGroup.resource_group_name
@@ -41,7 +41,7 @@ module "DomainAdminCredential" {
 }
 
 module "SafeModeCredential" {
-  source = "../../Global/AutomationCredential"
+  source = "../../global/AutomationCredential"
 
   automation_account_name = module.AutomationAccount.automation_account_name
   resource_group_name     = module.ResourceGroup.resource_group_name
