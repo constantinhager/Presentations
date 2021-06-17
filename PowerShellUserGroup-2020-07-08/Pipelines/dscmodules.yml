@@ -35,9 +35,9 @@ stages:
               arguments: >
                 "-OutputPath "$(Build.ArtifactStagingDirectory)""
                 "-SafeModepwd '$env:SafeModePwd'"
-                "-DomainAdmin $(domainAdmin)"
+                "-DomainAdmin '$(domainAdmin)'"
                 "-DomainAdminPwd '$env:DomainAdminPwd'"
-                "-DomainName $(domainName)"
+                "-DomainName '$(domainName)'"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
