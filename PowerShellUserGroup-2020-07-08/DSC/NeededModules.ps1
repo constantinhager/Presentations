@@ -1,4 +1,4 @@
-Install-Module ActiveDirectoryDSC -Verbose
-Install-Module ComputerManagementDSC -Verbose
-Install-Module StorageDSC -Verbose
-Install-Module xPSDesiredStateConfiguration -Verbose
+Install-Module ActiveDirectoryDSC -Force -Verbose
+Install-Module ComputerManagementDSC -Force -Verbose
+Install-Module StorageDSC -Force -Verbose
+Install-Module xPSDesiredStateConfiguration -Force -Verbose
