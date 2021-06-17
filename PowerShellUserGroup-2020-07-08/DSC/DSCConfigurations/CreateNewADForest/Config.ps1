@@ -70,7 +70,7 @@ configuration CreateNewADForest
             RetryCount       = 30
         }
 
-        Get-Disk DomainDataVolume
+        Disk DomainDataVolume
         {
             DiskId      = 2
             DriveLetter = 'E'
