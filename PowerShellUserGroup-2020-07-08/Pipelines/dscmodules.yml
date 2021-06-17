@@ -33,7 +33,7 @@ stages:
               filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
               pwsh: false
               arguments: >
-                "-OutputPath $(Build.ArtifactStagingDirectory)"
+                "-OutputPath "$(Build.ArtifactStagingDirectory)""
                 "-SafeModepwd $env:SafeModePwd"
                 "-DomainAdmin $(domainAdmin)"
                 "-DomainAdminPwd $env:DomainAdminPwd"
