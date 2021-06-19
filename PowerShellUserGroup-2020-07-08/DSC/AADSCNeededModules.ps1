@@ -35,6 +35,13 @@ foreach ($module in $DSCModules) {
     $retval = New-AzAutomationModule @splat
 
     while ($retval.ProvisioningState -eq "Creating") {
+        Start-Sleep -Seconds 2
         Write-Output "Module $($module.Name) is not imported correctly."
+        $splat = @{
+            AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
+            ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
+            Name                  = $module.Name
+        }
+        $retval = Get-AzAutomationModule @splat
     }
 }
