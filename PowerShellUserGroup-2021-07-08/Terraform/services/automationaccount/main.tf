@@ -16,11 +16,3 @@ module "AutomationAccount" {
   tag_creator             = "Constantin Hager"
   tag_function            = "Automation Account"
 }
-
-output "dsc_primary_access_key" {
-  value = module.AutomationAccount.dsc_primary_access_key
-}
-
-output "dsc_server_endpoint" {
-  value = module.AutomationAccount.dsc_server_endpoint
-}

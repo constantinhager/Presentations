@@ -1,12 +1,6 @@
-data "terraform_remote_state" "aadsc" {
-  provider = azurerm
-
-  config = {
-    resource_group_name  = "tfstate-rg"
-    storage_account_name = "chterraformbestpractices"
-    container_name       = "psug-aadsc"
-    key                  = "psug.tfstate"
-  }
+data "azurerm_automation_account" "aadsc" {
+  name                = var.aadsc_name
+  resource_group_name = var.aadsc_rg
 }
 
 data "azurerm_subnet" "psugvnet" {
@@ -141,7 +135,7 @@ resource "azurerm_virtual_machine_extension" "antimalewareextension" {
   protected_settings = <<PROTECTED_SETTINGS
         {
           "Items": {
-            "registrationKeyPrivate": "${data.terraform_remote_state.aadsc.outputs.dsc_primary_access_key}"
+            "registrationKeyPrivate": "${data.azurerm_automation_account.aadsc.primary_key}"
           }
         }
 PROTECTED_SETTINGS
@@ -158,7 +152,7 @@ PROTECTED_SETTINGS
             },
             {
               "Name": "RegistrationUrl",
-              "Value": "${data.terraform_remote_state.aadsc.outputs.dsc_server_endpoint}",
+              "Value": "${data.azurerm_automation_account.aadsc.endpoint}",
               "TypeName": "System.String"
             },
             {
