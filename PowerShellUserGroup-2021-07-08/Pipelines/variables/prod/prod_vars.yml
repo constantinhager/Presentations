@@ -14,4 +14,8 @@ variables:
   - name: automationAccountName
     value: psugDSC
   - name: automationAccountRGName
-    value: UserGroup-rg
+    value: psug-aadsc
+  - name: VNetRGName
+    value: psug-vnet
+  - name: VMRGName
+    value: psug-vms
