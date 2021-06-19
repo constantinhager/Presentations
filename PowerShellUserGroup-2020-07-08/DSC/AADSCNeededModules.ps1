@@ -26,14 +26,15 @@ $DSCModules.Add($row3)
 $DSCModules.Add($row4)
 
 foreach ($module in $DSCModules) {
-    if (-not(Get-AzAutomationModule -AutomationAccountName "$($env:AUTOMATIONACCOUNTNAME)" -Name $module.Name -ResourceGroupName "$($env:AUTOMATIONACCOUNTRGNAME)" -ErrorAction SilentlyContinue)) {
-        $splat = @{
-            AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
-            ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
-            Name                  = $module.Name
-            ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
-        }
+    $splat = @{
+        AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
+        ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
+        Name                  = $module.Name
+        ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
+    }
+    $retval = New-AzAutomationModule @splat
 
-        New-AzAutomationModule @splat
+    while ($retval.ProvisioningState -eq "Creating") {
+        Write-Output "Module $($module.Name) is not imported correctly."
     }
 }
