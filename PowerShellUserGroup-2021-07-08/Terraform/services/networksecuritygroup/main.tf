@@ -7,7 +7,7 @@ data "azurerm_subnet" "psugsubnet" {
 #################################################################################
 
 module "resourcegroup" {
-  source = "../../global/resourcegroup"
+  source = "../../global/ResourceGroup"
 
   resource_group_name  = var.rg_name
   tag_function         = "NSGs"
