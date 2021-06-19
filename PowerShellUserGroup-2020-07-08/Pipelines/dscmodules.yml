@@ -102,6 +102,18 @@ stages:
                 Copy-Item @splat
             displayName: Copy AADSCNeededModules.ps1 to ArtifactStagingDirectory
 
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: |
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/AADSCInstallNodeConfiguration.ps1"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                }
+                Copy-Item @splat
+            displayName: Copy AADSCInstallNodeConfiguration.ps1 to ArtifactStagingDirectory
+
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)"
@@ -138,15 +150,12 @@ stages:
               azurePowerShellVersion: "LatestVersion"
               pwsh: true
             displayName: "Add the needed DSC Modules to Azure Automation DSC"
-#          - task: AzurePowerShell@5
-#            inputs:
-#              azureSubscription: "MSDN"
-#              ScriptType: "InlineScript"
-#              Inline: >
-#                foreach($mof in (Get-Childitem -Path $(System.DefaultWorkingDirectory)))
-#                {
-#
-#                }
-#              azurePowerShellVersion: "LatestVersion"
-#              pwsh: true
-#            displayName: "Add Mofs to Azure Automation DSC"
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCInstallNodeConfiguration.ps1"
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Add Mofs to Azure Automation DSC"
