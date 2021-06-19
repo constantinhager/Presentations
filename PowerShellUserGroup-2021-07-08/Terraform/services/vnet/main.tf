@@ -10,7 +10,7 @@ module "ResourceGroup" {
 module "virtualnetwork" {
   source               = "../../global/virtualnetwork"
   location             = "West Europe"
-  resource_group_name  = var.rg_name
+  resource_group_name  = module.ResourceGroup.resource_group_name
   virtual_network_name = "psug-vnet"
   address_space        = ["172.20.0.0/16"]
   dns_servers          = ["172.20.1.10"]
@@ -22,7 +22,7 @@ module "virtualnetwork" {
 }
 module "psug-snet" {
   source               = "../../global/subnet"
-  resource_group_name  = var.rg_name
+  resource_group_name  = module.ResourceGroup.resource_group_name
   virtual_network_name = module.virtualnetwork.vnet_name
   subnet_name          = "psug-snet"
   address_prefixes     = ["172.20.1.0/24"]
