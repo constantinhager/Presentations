@@ -94,12 +94,7 @@ stages:
             inputs:
               targetType: "inline"
               script: >
-                $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/AADSCNeededModules.ps1"
-                  Destination = "$(Build.ArtifactStagingDirectory)"
-                  Force       = $true
-                }
-                Copy-Item @splat
+                Copy-Item -Path "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/AADSCNeededModules.ps1" -Destination "$(Build.ArtifactStagingDirectory)" -Force
             displayName: Copy AADSCNeededModules.ps1 to ArtifactStagingDirectory
 
           - task: PublishBuildArtifacts@1
