@@ -93,9 +93,9 @@ configuration CreateNewADForest
             DomainName                    = $DomainName
             Credential                    = $DomainAdminCredential
             SafeModeAdministratorPassword = $SafeModeCredential
-            DatabasePath                  = 'E:\NTDS'
-            LogPath                       = 'E:\NTDS'
-            SysvolPath                    = 'E:\SYSVOL'
+            DatabasePath                  = 'Z:\NTDS'
+            LogPath                       = 'Z:\NTDS'
+            SysvolPath                    = 'Z:\SYSVOL'
             DependsOn                     = '[WindowsFeature]ADDSInstall', '[Disk]DomainDataVolume', '[PendingReboot]BeforeDC'
             ForestMode                    = 'WinThreshold'
         }
