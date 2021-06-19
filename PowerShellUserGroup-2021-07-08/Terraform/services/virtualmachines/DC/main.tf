@@ -141,6 +141,7 @@ resource "azurerm_virtual_machine_extension" "antimalewareextension" {
 PROTECTED_SETTINGS
 
   settings = <<SETTINGS
+    {
         "Properties": [
             {
               "Name": "RegistrationKey",
@@ -176,6 +177,7 @@ PROTECTED_SETTINGS
               "TypeName": "System.String"
             }
           ]
+    }
 SETTINGS
 
   tags = {
