@@ -149,7 +149,7 @@ stages:
               backendAzureRmKey: "psugnsg.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/networksecuritygroup"
               description: "PSUG DC"
-              planparameters: "-var rg_name=${{variables.VMRGName}} -var subnet_rg=${{variables.VNetRGName}}"
+              planparameters: "-var rg_name=${{variables.NSGRGName}} -var subnet_rg=${{variables.VNetRGName}}"
 
   - stage: VMS
     dependsOn: Build

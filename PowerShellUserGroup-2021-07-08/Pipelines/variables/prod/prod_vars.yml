@@ -19,3 +19,5 @@ variables:
     value: psug-vnet
   - name: VMRGName
     value: psug-vms
+  - name: NSGRGName
+    value: psug-nsg
