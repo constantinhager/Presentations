@@ -141,22 +141,47 @@ resource "azurerm_virtual_machine_extension" "antimalewareextension" {
   protected_settings = <<PROTECTED_SETTINGS
         {
           "Items": {
-            "registrationKeyPrivate": "${data.terraform_remote_state.aadsc.}"
+            "registrationKeyPrivate": "${data.terraform_remote_state.aadsc.outputs.dsc_primary_access_key}"
           }
         }
 PROTECTED_SETTINGS
 
   settings = <<SETTINGS
-        {
-          "AntimalwareEnabled": "true",
-          "RealtimeProtectionEnabled": "true",
-          "ScheduledScanSettings": {
-            "isEnabled": "true",
-            "scanType": "Quick",
-            "day": "7",
-            "time": "120"
-          }
-        }
+        "Properties": [
+            {
+              "Name": "RegistrationKey",
+              "Value": {
+                "UserName": "PLACEHOLDER_DONOTUSE",
+                "Password": "PrivateSettingsRef:registrationKeyPrivate"
+              },
+              "TypeName": "System.Management.Automation.PSCredential"
+            },
+            {
+              "Name": "RegistrationUrl",
+              "Value": "${data.terraform_remote_state.aadsc.outputs.dsc_server_endpoint}",
+              "TypeName": "System.String"
+            },
+            {
+              "Name": "NodeConfigurationName",
+              "Value": "CreateNewADForest.CreateNewADForest",
+              "TypeName": "System.String"
+            },
+            {
+              "Name": "ConfigurationMode",
+              "Value": "ApplyandAutoCorrect",
+              "TypeName": "System.String"
+            },
+            {
+              "Name": "RebootNodeIfNeeded",
+              "Value": true,
+              "TypeName": "System.Boolean"
+            },
+            {
+              "Name": "ActionAfterReboot",
+              "Value": "ContinueConfiguration",
+              "TypeName": "System.String"
+            }
+          ]
 SETTINGS
 
   tags = {
