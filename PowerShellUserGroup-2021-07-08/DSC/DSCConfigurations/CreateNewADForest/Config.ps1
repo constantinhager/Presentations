@@ -77,7 +77,7 @@ configuration CreateNewADForest
         Disk DomainDataVolume
         {
             DiskId      = 2
-            DriveLetter = 'E'
+            DriveLetter = 'Z'
             DependsOn   = '[WaitForDisk]Disk'
         }
 
