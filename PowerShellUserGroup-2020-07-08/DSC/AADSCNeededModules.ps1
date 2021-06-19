@@ -26,7 +26,7 @@ $DSCModules.Add($row3)
 $DSCModules.Add($row4)
 
 foreach ($module in $DSCModules) {
-    if (-not(Get-AzAutomationModule -AutomationAccountName "$($env:AUTOMATIONACCOUNTNAME)" -Name $module.Name -ResourceGroupName "$($env:AUTOMATIONACCOUNTRGNAME)")) {
+    if (-not(Get-AzAutomationModule -AutomationAccountName "$($env:AUTOMATIONACCOUNTNAME)" -Name $module.Name -ResourceGroupName "$($env:AUTOMATIONACCOUNTRGNAME)" -ErrorAction SilentlyContinue)) {
         $splat = @{
             AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
             ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
