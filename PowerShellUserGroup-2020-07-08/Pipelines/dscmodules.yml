@@ -96,43 +96,86 @@ stages:
               ArtifactName: "mof"
               publishLocation: "Container"
             displayName: "Create Artifact for all mof files"
-#
-#  - stage: AzureAutomationAccount
-#    dependsOn: Build
-#    condition: succeeded()
-#
-#    jobs:
-#      - job: Deploy
-#        variables:
-#          - template: variables/prod/prod_vars.yml
-#
-#        pool:
-#          vmImage: "ubuntu-latest"
-#
-#        steps:
-#          - task: DownloadBuildArtifacts@0
+
+  - stage: PublishToAzureAutomationDSC
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "mof"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download mof global artifact"
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "InlineScript"
+              Inline: >
+                $DSCModules = New-Object -TypeName 'System.Collections.Generic.List[System.Object]'
+
+                $row1 = [PSCustomObject]@{
+                  Name = "ActiveDirectoryDSC"
+                  Version = "6.0.1"
+                }
+
+                $row2 = [PSCustomObject]@{
+                  Name = "ComputerManagementDSC"
+                  Version = "8.4.0"
+                }
+
+                $row3 = [PSCustomObject]@{
+                  Name = "StorageDSC"
+                  Version = "5.0.1"
+                }
+
+                $row4 = [PSCustomObject]@{
+                  Name = "xPSDesiredStateConfiguration"
+                  Version = "9.0.1"
+                }
+
+                $DSCModules.Add($row1)
+                $DSCModules.Add($row2)
+                $DSCModules.Add($row3)
+                $DSCModules.Add($row4)
+
+                foreach($module in $DSCModules)
+                {
+                  if(-not(Get-AzAutomationModule -AutomationAccountName $(automationAccountName) -Name $module -ResourceGroupName $(automationAccountRGName)))
+                  {
+                      $splat = @{
+                        AutomationAccountName = $(automationAccountName)
+                        ResourceGroupName     = $(automationAccountRGName)
+                        Name                  = $module.Name
+                        ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
+                      }
+
+                      New-AzAutomationModule @splat
+                  }
+                }
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Add the needed DSC Modules to Azure Automation DSC"
+#          - task: AzurePowerShell@5
 #            inputs:
-#              buildType: "current"
-#              downloadType: "single"
-#              artifactName: "global"
-#              downloadPath: "$(System.DefaultWorkingDirectory)"
-#            displayName: "Download Azure global artifact"
+#              azureSubscription: "MSDN"
+#              ScriptType: "InlineScript"
+#              Inline: >
+#                foreach($mof in (Get-Childitem -Path $(System.DefaultWorkingDirectory)))
+#                {
 #
-#          - task: DownloadBuildArtifacts@0
-#            inputs:
-#              buildType: "current"
-#              downloadType: "single"
-#              artifactName: "creaton"
-#              downloadPath: "$(System.DefaultWorkingDirectory)"
-#            displayName: "Download creaton artifact"
-#
-#          - template: templates/terraform.yml
-#            parameters:
-#              terraformVersion: "${{variables.terraformVersion}}"
-#              serviceConnectionName: "${{variables.serviceConnectionName}}"
-#              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
-#              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
-#              backendAzureRmContainerName: "managementgovernance"
-#              backendAzureRmKey: "allowedlocations.tfstate"
-#              workingDirectory: "$(System.DefaultWorkingDirectory)/creaton/policy/allowedlocations"
-#              description: "Allowed Locations"
+#                }
+#              azurePowerShellVersion: "LatestVersion"
+#              pwsh: true
+#            displayName: "Add Mofs to Azure Automation DSC"
