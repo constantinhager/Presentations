@@ -1,3 +1,14 @@
+data "terraform_remote_state" "aadsc" {
+  provider = azurerm
+
+  config = {
+    resource_group_name  = "tfstate-rg"
+    storage_account_name = "chterraformbestpractices"
+    container_name       = "psug-aadsc"
+    key                  = "psug.tfstate"
+  }
+}
+
 data "azurerm_subnet" "psugvnet" {
   name                 = "psug-snet"
   virtual_network_name = "psug-vnet"
@@ -118,13 +129,22 @@ module "addatadiskattachment" {
   lun                = 0
   virtual_machine_id = module.dc.windows_virtual_machine_id
 }
-/*
+
 resource "azurerm_virtual_machine_extension" "antimalewareextension" {
-  name                 = "azeuwsvr001WindowsDefender"
-  virtual_machine_id   = module.azeuwsvr001.windows_virtual_machine_id
-  publisher            = "Microsoft.Azure.Security"
-  type                 = "IaaSAntimalware"
-  type_handler_version = "1.3"
+  name                       = "dcaadsc"
+  virtual_machine_id         = module.dc.windows_virtual_machine_id
+  publisher                  = "Microsoft.Powershell"
+  type                       = "DSC"
+  type_handler_version       = "2.75"
+  auto_upgrade_minor_version = true
+
+  protected_settings = <<PROTECTED_SETTINGS
+        {
+          "Items": {
+            "registrationKeyPrivate": "${data.terraform_remote_state.aadsc.}"
+          }
+        }
+PROTECTED_SETTINGS
 
   settings = <<SETTINGS
         {
@@ -140,20 +160,10 @@ resource "azurerm_virtual_machine_extension" "antimalewareextension" {
 SETTINGS
 
   tags = {
-    tag_function         = "Windows Defender VM Extension"
-    tag_application      = "Windows Defender VM Extension for AD Controller"
-    tag_applicationowner = "COC AG"
+    tag_function         = "AADSC Extension"
+    tag_application      = "AADSC Extension for AD Controller"
+    tag_applicationowner = "Constantin Hager"
     tag_department       = "IT"
     tag_location         = "West Europe"
   }
 }
-
-module "BackupVM-azeuwsvr001" {
-  source = "../../../global/backupvm"
-
-  resource_group_name = "backup-rg"
-  recovery_vault_name = "creatonvmbackup-rsv"
-  source_vm_id        = module.azeuwsvr001.windows_virtual_machine_id
-  backup_policy_id    = "/subscriptions/b4d67e10-7f66-4ba6-9b04-760f928e9f1d/resourceGroups/backup-rg/providers/Microsoft.RecoveryServices/vaults/creatonvmbackup-rsv/backupPolicies/DefaultPolicy"
-}
-*/
