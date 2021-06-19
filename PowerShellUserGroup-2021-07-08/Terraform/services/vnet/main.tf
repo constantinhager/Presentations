@@ -13,7 +13,7 @@ module "virtualnetwork" {
   resource_group_name  = module.ResourceGroup.resource_group_name
   virtual_network_name = "psug-vnet"
   address_space        = ["172.20.0.0/16"]
-  dns_servers          = ["172.20.1.10"]
+  dns_servers          = ["172.20.1.10", "168.63.129.16"]
   tag_function         = "PSUG VNet"
   tag_application      = "Virtual Network PSUG"
   tag_applicationowner = "Constantin Hager"
