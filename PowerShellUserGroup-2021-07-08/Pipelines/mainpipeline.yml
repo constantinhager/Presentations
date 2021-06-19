@@ -69,6 +69,35 @@ stages:
               description: "PSUG automation account"
               planparameters: "-var automation_account_name=${{variables.automationAccountName}} -var rg_name=${{variables.automationAccountRGName}}"
 
+  - stage: VNET
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "psug"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download psug artifact"
+
           - template: templates/terraform.yml
             parameters:
               terraformVersion: "${{variables.terraformVersion}}"
@@ -79,4 +108,45 @@ stages:
               backendAzureRmKey: "psug-vnet.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/vnet"
               description: "PSUG VNET account"
+              planparameters: "-var rg_name=${{variables.automationAccountRGName}}"
+
+  - stage: VMS
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "psug"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download psug artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "network"
+              backendAzureRmKey: "psug-vnet.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/virtualmachines/DC"
+              description: "PSUG DC"
               planparameters: "-var rg_name=${{variables.automationAccountRGName}}"
