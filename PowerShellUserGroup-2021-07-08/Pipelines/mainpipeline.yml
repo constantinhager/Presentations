@@ -149,4 +149,4 @@ stages:
               backendAzureRmKey: "psugdc.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/virtualmachines/DC"
               description: "PSUG DC"
-              planparameters: "-var rg_name=${{variables.VMRGName}}"
+              planparameters: "-var rg_name=${{variables.VMRGName}} -var subnet_rg=${{variables.VNetRGName}}"

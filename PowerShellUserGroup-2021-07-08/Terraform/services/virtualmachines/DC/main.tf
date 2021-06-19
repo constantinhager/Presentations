@@ -1,7 +1,7 @@
 data "azurerm_subnet" "psugvnet" {
   name                 = "psug-snet"
   virtual_network_name = "psug-vnet"
-  resource_group_name  = var.rg_name
+  resource_group_name  = var.subnet_rg
 }
 
 data "azurerm_storage_account" "diagstore" {
@@ -9,12 +9,21 @@ data "azurerm_storage_account" "diagstore" {
   resource_group_name = "WorkShop"
 }
 
+module "ResourceGroup" {
+  source = "../../global/ResourceGroup"
+
+  resource_group_name = var.rg_name
+  tag_creator         = "Constantin Hager"
+  tag_function        = "Azure Automation DSC"
+  location            = "West Europe"
+}
+
 module "publicip_mgmt_dc" {
   source = "../../../global/publicipdnslabel"
 
   public_ip_name       = "dc-pip"
   location             = "West Europe"
-  resource_group_name  = var.rg_name
+  resource_group_name  = module.ResourceGroup.resource_group_name
   allocation_method    = "Static"
   sku                  = "Standard"
   domain_name_label    = "dc-pip"
@@ -30,7 +39,7 @@ module "dc_nic" {
 
   private_network_interface_name                 = "dc-nic01"
   location                                       = "West Europe"
-  resource_group_name                            = var.rg_name
+  resource_group_name                            = module.ResourceGroup.resource_group_name
   enable_ip_forwarding                           = false
   enable_accelerated_networking                  = false
   ip_configuration_name                          = "ipconfig1"
@@ -53,7 +62,7 @@ module "availabilityset" {
   availability_set_name = "ad-av"
   location              = "West Europe"
   managed               = true
-  resource_group_name   = var.rg_name
+  resource_group_name   = module.ResourceGroup.resource_group_name
   tag_function          = "Availability Set for DCs"
   tag_application       = "AD Controller"
   tag_applicationowner  = "Constantin Hager"
@@ -65,7 +74,7 @@ module "dc" {
   source = "../../../global/virtualmachinewindowsfrommarketplace"
 
   virtual_machine_name = "dc"
-  resource_group_name  = var.rg_name
+  resource_group_name  = module.ResourceGroup.resource_group_name
   location             = "West Europe"
   size                 = "Standard_B2ms"
 
@@ -93,7 +102,7 @@ module "addatadisk" {
   disk_size_gb         = 32
   location             = "West Europe"
   managed_disk_name    = "dc-datadisk01"
-  resource_group_name  = var.rg_name
+  resource_group_name  = module.ResourceGroup.resource_group_name
   storage_account_type = "Standard_LRS"
   tag_function         = "dc Datadisk"
   tag_application      = "AD Controller Datadisk"
