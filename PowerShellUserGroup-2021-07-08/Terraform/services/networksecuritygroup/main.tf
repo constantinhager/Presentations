@@ -6,16 +6,13 @@ data "azurerm_subnet" "psugsubnet" {
 
 #################################################################################
 
-module "resourcegroup" {
+module "ResourceGroup" {
   source = "../../global/ResourceGroup"
 
-  resource_group_name  = var.rg_name
-  tag_function         = "NSGs"
-  tag_application      = "NSG"
-  tag_applicationowner = "Constantin Hager"
-  tag_department       = "IT"
-  tag_location         = "West Europe"
-  location             = "West Europe"
+  resource_group_name = var.rg_name
+  tag_creator         = "Constantin Hager"
+  tag_function        = "NSGs"
+  location            = "West Europe"
 }
 
 
