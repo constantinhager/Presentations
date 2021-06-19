@@ -65,7 +65,7 @@ configuration AddDCToExistingForest
         Disk DomainDataVolume
         {
             DiskId      = 2
-            DriveLetter = 'E'
+            DriveLetter = 'Z'
             DependsOn   = '[WaitForDisk]Disk'
         }
 
@@ -101,9 +101,9 @@ configuration AddDCToExistingForest
             DomainName                    = $DomainName
             Credential                    = $DomainAdminCredential
             SafeModeAdministratorPassword = $SafeModeCredential
-            DatabasePath                  = 'E:\NTDS'
-            LogPath                       = 'E:\NTDS'
-            SysvolPath                    = 'E:\SYSVOL'
+            DatabasePath                  = 'Z:\NTDS'
+            LogPath                       = 'Z:\NTDS'
+            SysvolPath                    = 'Z:\SYSVOL'
             SiteName                      = 'Default-First-Site-Name'
             IsGlobalCatalog               = $true
             InstallDns                    = $true
