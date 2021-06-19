@@ -2,8 +2,8 @@
 trigger:
   paths:
     include:
-      - PowerShellUserGroup-2020-07-08/Terraform/*
-      - PowerShellUserGroup-2020-07-08/Pipelines/mainpipeline.yml
+      - PowerShellUserGroup-2021-07-08/Terraform/*
+      - PowerShellUserGroup-2021-07-08/Pipelines/mainpipeline.yml
 
 stages:
   - stage: Build
@@ -16,14 +16,14 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/Terraform/global"
+              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/Terraform/global"
               ArtifactName: "global"
               publishLocation: "Container"
             displayName: "Create Artifact for the global folder"
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/Terraform/services"
+              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/Terraform/services"
               ArtifactName: "psug"
               publishLocation: "Container"
             displayName: "Create Artifact for all psug services"
@@ -68,3 +68,15 @@ stages:
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/automationaccount"
               description: "PSUG automation account"
               planparameters: "-var automation_account_name=${{variables.automationAccountName}} -var rg_name=${{variables.automationAccountRGName}}"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "network"
+              backendAzureRmKey: "psug-vnet.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/vnet"
+              description: "PSUG VNET account"
+              planparameters: "-var rg_name=${{variables.automationAccountRGName}}"
