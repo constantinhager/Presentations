@@ -51,7 +51,7 @@ module "allow_3389_in" {
   direction                   = "Inbound"
 }
 
-module "nsg_FW_External_snet" {
+module "nsg_psug_snet" {
   source = "../../global/netorksecuritygrouptosubnet"
 
   subnet_id                 = data.azurerm_subnet.psugsubnet.id
