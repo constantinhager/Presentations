@@ -90,6 +90,18 @@ stages:
                 Rename-Item -Path "$(Build.ArtifactStagingDirectory)\localhost.mof" -NewName 'CreateFile.mof'
             displayName: Rename file CreateFile.mof
 
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: >
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/DSC/AADSCNeededModules.ps1"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                }
+                Copy-Item @splat
+            displayName: Copy AADSCNeededModules.ps1 to ArtifactStagingDirectory
+
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)"
@@ -121,49 +133,8 @@ stages:
           - task: AzurePowerShell@5
             inputs:
               azureSubscription: "MSDN"
-              ScriptType: "InlineScript"
-              Inline: >
-                $DSCModules = New-Object -TypeName 'System.Collections.Generic.List[System.Object]'
-
-                $row1 = [PSCustomObject]@{
-                  Name = "ActiveDirectoryDSC"
-                  Version = "6.0.1"
-                }
-
-                $row2 = [PSCustomObject]@{
-                  Name = "ComputerManagementDSC"
-                  Version = "8.4.0"
-                }
-
-                $row3 = [PSCustomObject]@{
-                  Name = "StorageDSC"
-                  Version = "5.0.1"
-                }
-
-                $row4 = [PSCustomObject]@{
-                  Name = "xPSDesiredStateConfiguration"
-                  Version = "9.0.1"
-                }
-
-                $DSCModules.Add($row1)
-                $DSCModules.Add($row2)
-                $DSCModules.Add($row3)
-                $DSCModules.Add($row4)
-
-                foreach($module in $DSCModules)
-                {
-                  if(-not(Get-AzAutomationModule -AutomationAccountName $(automationAccountName) -Name $module.Name -ResourceGroupName $(automationAccountRGName)))
-                  {
-                      $splat = @{
-                        AutomationAccountName = $(automationAccountName)
-                        ResourceGroupName     = $(automationAccountRGName)
-                        Name                  = $module.Name
-                        ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
-                      }
-
-                      New-AzAutomationModule @splat
-                  }
-                }
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/AADSCNeededModules.ps1"
               azurePowerShellVersion: "LatestVersion"
               pwsh: true
             displayName: "Add the needed DSC Modules to Azure Automation DSC"
