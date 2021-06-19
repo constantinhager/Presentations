@@ -1,7 +1,7 @@
 module "ResourceGroup" {
   source = "../../global/ResourceGroup"
 
-  resource_group_name = "UserGroup-rg"
+  resource_group_name = var.rg_name
   tag_creator         = "Constantin Hager"
   tag_function        = "Azure Automation DSC"
   location            = "West Europe"

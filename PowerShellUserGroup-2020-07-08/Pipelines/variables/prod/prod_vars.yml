@@ -13,3 +13,5 @@ variables:
     value: psug\azureuser
   - name: automationAccountName
     value: psugDSC
+  - name: automationAccountRGName
+    value: UserGroup-rg

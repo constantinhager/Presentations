@@ -26,7 +26,7 @@ stages:
               PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2020-07-08/Terraform/services"
               ArtifactName: "psug"
               publishLocation: "Container"
-            displayName: "Create Artifact for all creaton services"
+            displayName: "Create Artifact for all psug services"
 
   - stage: AzureAutomationAccount
     dependsOn: Build
@@ -67,4 +67,4 @@ stages:
               backendAzureRmKey: "psug.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/psug/automationaccount"
               description: "PSUG automation account"
-              planparameters: "-var automation_account_name=${{variables.automationAccountName}}"
+              planparameters: "-var automation_account_name=${{variables.automationAccountName}} rg_name=${{variables.automationAccountRGName}}"
