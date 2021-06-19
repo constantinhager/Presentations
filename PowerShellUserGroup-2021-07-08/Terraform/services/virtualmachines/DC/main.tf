@@ -10,7 +10,7 @@ data "azurerm_storage_account" "diagstore" {
 }
 
 module "ResourceGroup" {
-  source = "../../global/ResourceGroup"
+  source = "../../../global/ResourceGroup"
 
   resource_group_name = var.rg_name
   tag_creator         = "Constantin Hager"
