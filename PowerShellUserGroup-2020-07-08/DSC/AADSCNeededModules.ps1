@@ -26,10 +26,10 @@ $DSCModules.Add($row3)
 $DSCModules.Add($row4)
 
 foreach ($module in $DSCModules) {
-    if (-not(Get-AzAutomationModule -AutomationAccountName $(automationAccountName) -Name $module.Name -ResourceGroupName $(automationAccountRGName))) {
+    if (-not(Get-AzAutomationModule -AutomationAccountName "$($env:AUTOMATIONACCOUNTNAME)" -Name $module.Name -ResourceGroupName "$($env:AUTOMATIONACCOUNTRGNAME)")) {
         $splat = @{
-            AutomationAccountName = $(automationAccountName)
-            ResourceGroupName     = $(automationAccountRGName)
+            AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
+            ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
             Name                  = $module.Name
             ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
         }
