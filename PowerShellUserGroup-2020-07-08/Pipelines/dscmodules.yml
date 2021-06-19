@@ -152,7 +152,7 @@ stages:
 
                 foreach($module in $DSCModules)
                 {
-                  if(-not(Get-AzAutomationModule -AutomationAccountName $(automationAccountName) -Name $module -ResourceGroupName $(automationAccountRGName)))
+                  if(-not(Get-AzAutomationModule -AutomationAccountName $(automationAccountName) -Name $module.Name -ResourceGroupName $(automationAccountRGName)))
                   {
                       $splat = @{
                         AutomationAccountName = $(automationAccountName)
