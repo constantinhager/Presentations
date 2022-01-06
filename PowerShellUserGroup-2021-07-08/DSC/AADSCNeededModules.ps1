@@ -30,6 +30,7 @@ foreach ($module in $DSCModules) {
         AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
         ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
         Name                  = $module.Name
+        ErrorAction           = 'SilentlyContinue'
     }
     $retval = Get-AzAutomationModule @splat
 
