@@ -7,7 +7,7 @@ $row1 = [PSCustomObject]@{
 
 $row2 = [PSCustomObject]@{
     Name    = 'ComputerManagementDSC'
-    Version = '8.4.0'
+    Version = '8.5.0'
 }
 
 $row3 = [PSCustomObject]@{
@@ -17,7 +17,7 @@ $row3 = [PSCustomObject]@{
 
 $row4 = [PSCustomObject]@{
     Name    = 'xPSDesiredStateConfiguration'
-    Version = '9.0.1'
+    Version = '9.1.0'
 }
 
 $DSCModules.Add($row1)
