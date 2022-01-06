@@ -48,7 +48,7 @@ module "dc_nic" {
   enable_ip_forwarding                           = false
   enable_accelerated_networking                  = false
   ip_configuration_name                          = "ipconfig1"
-  ip_configuration_subnet_id                     = data.azurerm_subnet.psugvnet.id
+  ip_configuration_subnet_id                     = data.azurerm_subnet.subnet.id
   ip_configuration_private_ip_address_allocation = "Static"
   ip_configuration_primary                       = false
   ip_configuration_private_ip_address            = "172.20.1.10"
