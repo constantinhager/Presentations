@@ -26,7 +26,7 @@ variables:
   - name: DCVMName
     value: dsccc-dc01
   - name: NSGRGName
-    value: dsccc-rg
+    value: dsccc-nsg-rg
   - name: NSGName
     value: dsccc-nsg
   - name: DSCSAName
