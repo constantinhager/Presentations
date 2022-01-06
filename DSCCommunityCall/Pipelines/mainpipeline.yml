@@ -151,6 +151,47 @@ stages:
               description: "PSUG DC"
               planparameters: "-var rg_name=${{variables.NSGRGName}} -var subnet_rg=${{variables.VNetRGName}}"
 
+  - stage: StorageAccounts
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "psug"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download psug artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "psug-sa"
+              backendAzureRmKey: "psugdscsa.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/storageaccount/dscstrorage"
+              description: "PSUG SA"
+              planparameters: "-var rg_name=${{variables.DSCSARGName}} -var storage_account_name=${{variables.DSCSAName}}"
+
   - stage: AAVMS
     dependsOn: Build
     condition: succeeded()
