@@ -3,7 +3,6 @@ trigger:
   paths:
     include:
       - DSCCommunityCall/DSC/DSCConfigurations
-      - DSCCommunityCall/Pipelines/dscmodules.yml
 
 stages:
   - stage: Build

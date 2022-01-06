@@ -3,7 +3,6 @@ trigger:
   paths:
     include:
       - DSCCommunityCall/Terraform/*
-      - DSCCommunityCall/Pipelines/mainpipeline.yml
 
 stages:
   - stage: Build
@@ -231,4 +230,4 @@ stages:
               backendAzureRmKey: "dscccdc.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/virtualmachines/DC"
               description: "DSCCommunityCall DC"
-              planparameters: "-var rg_name=${{variables.VMRGName}} -var vm_name=${{variables.DCVMName}} -var subnet_rg=${{variables.VNetRGName}} -var aadsc_rg=${{variables.automationAccountRGName}} -var aadsc_name=${{variables.automationAccountName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var nsg_name=${{variables.NSGName}}"
+              planparameters: "-var rg_name=${{variables.VMRGName}} -var vm_name=${{variables.DCVMName}} -var subnet_rg=${{variables.VNetRGName}} -var aadsc_rg=${{variables.automationAccountRGName}} -var aadsc_name=${{variables.automationAccountName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}}"
