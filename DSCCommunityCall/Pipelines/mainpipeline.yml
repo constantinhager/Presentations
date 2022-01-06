@@ -1,3 +1,10 @@
+# specific path build
+trigger:
+  paths:
+    include:
+      - DSCCommunityCall/Terraform/*
+      - DSCCommunityCall/Pipelines/mainpipeline.yml
+
 stages:
   - stage: Build
     jobs:
