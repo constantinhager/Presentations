@@ -36,7 +36,7 @@ module "allow_3389_in" {
 
   network_security_rule_name  = "Allow3389"
   resource_group_name         = module.ResourceGroup.resource_group_name
-  network_security_group_name = module.psug_network_security_group.network_securtiy_group_name
+  network_security_group_name = module.network_security_group.network_securtiy_group_name
   description                 = "Allow3389"
   protocol                    = "Tcp"
   source_port_range           = "*"

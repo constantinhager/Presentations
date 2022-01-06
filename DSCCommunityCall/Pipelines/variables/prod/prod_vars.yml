@@ -16,7 +16,7 @@ variables:
   - name: automationAccountRGName
     value: dsccc-aadsc
   - name: VNetRGName
-    value: dsccc-rg
+    value: dsccc-network-rg
   - name: VNetName
     value: dsccc-vnet
   - name: SnetName
