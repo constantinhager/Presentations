@@ -124,7 +124,7 @@ module "addatadiskattachment" {
   virtual_machine_id = module.dc.windows_virtual_machine_id
 }
 
-resource "azurerm_virtual_machine_extension" "antimalewareextension" {
+resource "azurerm_virtual_machine_extension" "aadsc" {
   name                       = "dcaadsc"
   virtual_machine_id         = module.dc.windows_virtual_machine_id
   publisher                  = "Microsoft.Powershell"
