@@ -22,7 +22,7 @@ variables:
   - name: SnetName
     value: dsccc-snet
   - name: VMRGName
-    value: dsccc-rg
+    value: dsccc-aavm-rg
   - name: DCVMName
     value: dsccc-dc01
   - name: NSGRGName
