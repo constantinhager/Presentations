@@ -125,6 +125,11 @@ module "addatadiskattachment" {
 }
 
 resource "azurerm_virtual_machine_extension" "aadsc" {
+
+  depends_on = [
+    module.addatadiskattachment
+  ]
+
   name                       = "dcaadsc"
   virtual_machine_id         = module.dc.windows_virtual_machine_id
   publisher                  = "Microsoft.Powershell"
