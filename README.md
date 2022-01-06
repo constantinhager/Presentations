@@ -10,4 +10,3 @@ Repository for all my presentations
 | 2021-01-14 | PowerShell UserGroup Hamburg - PowerShell Credential Handling and Secret Management    |
 | 2021-02-04 | PowerShell UserGroup innsalzach - PowerShell & MS Graph                                |
 | 2021-06-10 | PowerShell UserGroup innsalzach - PowerShell Repository                                |
-| 2021-07-08 | PowerShell UserGroup innsalzach - PowerShell DSC Present and Future                    |
