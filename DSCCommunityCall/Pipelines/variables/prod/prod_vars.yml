@@ -8,20 +8,28 @@ variables:
   - name: backendAzureRmStorageAccountName
     value: chterraformbestpractices
   - name: domainName
-    value: psug.local
+    value: dsccc.local
   - name: domainAdmin
-    value: psug\azureuser
+    value: dsccc\azureuser
   - name: automationAccountName
-    value: psugDSC
+    value: dscccDSC
   - name: automationAccountRGName
-    value: psug-aadsc
+    value: dsccc-aadsc
   - name: VNetRGName
-    value: psug-vnet
+    value: dsccc-rg
+  - name: VNetName
+    value: dsccc-vnet
+  - name: SnetName
+    value: dsccc-snet
   - name: VMRGName
-    value: psug-vms
+    value: dsccc-rg
+  - name: DCVMName
+    value: dsccc-dc01
   - name: NSGRGName
-    value: psug-nsg
+    value: dsccc-rg
+  - name: NSGName
+    value: dsccc-nsg
   - name: DSCSAName
-    value: psugdscstorage01
+    value: dscccdscstorage01
   - name: DSCSARGName
-    value: psugsa-rg
+    value: dscccsa-rg
