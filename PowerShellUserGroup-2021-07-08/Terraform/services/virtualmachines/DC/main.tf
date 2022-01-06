@@ -78,7 +78,7 @@ module "availabilityset" {
 module "dc" {
   source = "../../../global/virtualmachinewindowsfrommarketplace"
 
-  virtual_machine_name = "dc"
+  virtual_machine_name = "psug-dc"
   resource_group_name  = module.ResourceGroup.resource_group_name
   location             = "West Europe"
   size                 = "Standard_B2ms"
@@ -96,7 +96,7 @@ module "dc" {
   source_image_reference_sku       = "2022-datacenter"
 
   os_disk_size_gb = 127
-  os_disk_name    = "dc-osdisk"
+  os_disk_name    = "psug-dc-osdisk"
 
   tag_function         = "DC"
   tag_application      = "AD Controller"
@@ -110,7 +110,7 @@ module "addatadisk" {
 
   disk_size_gb         = 32
   location             = "West Europe"
-  managed_disk_name    = "dc-datadisk01"
+  managed_disk_name    = "psug-dc-datadisk01"
   resource_group_name  = module.ResourceGroup.resource_group_name
   storage_account_type = "Standard_LRS"
   tag_function         = "dc Datadisk"
