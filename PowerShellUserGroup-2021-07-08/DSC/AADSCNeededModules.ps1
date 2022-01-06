@@ -26,22 +26,27 @@ $DSCModules.Add($row3)
 $DSCModules.Add($row4)
 
 foreach ($module in $DSCModules) {
-    $splat = @{
-        AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
-        ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
-        Name                  = $module.Name
-        ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
-    }
-    $retval = New-AzAutomationModule @splat
-
-    while ($retval.ProvisioningState -eq "Creating") {
-        Start-Sleep -Seconds 2
-        Write-Output "Module $($module.Name) is not imported correctly."
+    if (Get-AzAutomationModule -ModuleName $module.Name -ModuleVersion $module.Version -ErrorAction SilentlyContinue) {
+        Write-Host "Module $($module.Name) already exists"
+    } else {
+        Write-Host "Importing module $($module.Name) into AutomationAccount $($env:AUTOMATIONACCOUNTNAME)"
         $splat = @{
             AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
             ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
             Name                  = $module.Name
+            ContentLinkUri        = "https://www.powershellgallery.com/api/v2/package/$($module.Name)/$($module.Version)"
         }
-        $retval = Get-AzAutomationModule @splat
+        $retval = New-AzAutomationModule @splat
+
+        while ($retval.ProvisioningState -eq 'Creating') {
+            Start-Sleep -Seconds 2
+            Write-Output "Module $($module.Name) is not completely imported."
+            $splat = @{
+                AutomationAccountName = "$($env:AUTOMATIONACCOUNTNAME)"
+                ResourceGroupName     = "$($env:AUTOMATIONACCOUNTRGNAME)"
+                Name                  = $module.Name
+            }
+            $retval = Get-AzAutomationModule @splat
+        }
     }
 }
