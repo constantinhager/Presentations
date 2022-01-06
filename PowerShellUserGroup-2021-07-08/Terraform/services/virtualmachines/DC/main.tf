@@ -26,12 +26,12 @@ module "ResourceGroup" {
 module "publicip_mgmt_dc" {
   source = "../../../global/publicipdnslabel"
 
-  public_ip_name       = "dc-pip"
+  public_ip_name       = "psug-dc-pip"
   location             = "West Europe"
   resource_group_name  = module.ResourceGroup.resource_group_name
   allocation_method    = "Static"
   sku                  = "Standard"
-  domain_name_label    = "dc-pip"
+  domain_name_label    = "psug-dc-pip"
   tag_function         = "public ip for dc"
   tag_application      = "dc"
   tag_applicationowner = "Constantin Hager"
@@ -42,7 +42,7 @@ module "publicip_mgmt_dc" {
 module "dc_nic" {
   source = "../../../global/publicnetworkinterface"
 
-  private_network_interface_name                 = "dc-nic01"
+  private_network_interface_name                 = "psug-dc-nic01"
   location                                       = "West Europe"
   resource_group_name                            = module.ResourceGroup.resource_group_name
   enable_ip_forwarding                           = false
