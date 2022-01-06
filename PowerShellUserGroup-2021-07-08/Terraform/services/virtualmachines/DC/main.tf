@@ -91,6 +91,10 @@ module "dc" {
   network_interface_ids                = module.dc_nic.private_network_interface_id
   boot_diagnostics_storage_account_uri = data.azurerm_storage_account.diagstore.primary_blob_endpoint
 
+  source_image_reference_publisher = "MicrosoftWindowsServer"
+  source_image_reference_offer     = "WindowsServer"
+  source_image_reference_sku       = "2022-datacenter"
+
   os_disk_size_gb = 127
   os_disk_name    = "dc-osdisk"
 
