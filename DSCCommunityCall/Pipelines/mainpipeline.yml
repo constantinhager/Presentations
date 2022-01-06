@@ -2,8 +2,8 @@
 trigger:
   paths:
     include:
-      - PowerShellUserGroup-2021-07-08/Terraform/*
-      - PowerShellUserGroup-2021-07-08/Pipelines/mainpipeline.yml
+      - DSCCommunityCall/Terraform/*
+      - DSCCommunityCall/Pipelines/mainpipeline.yml
 
 stages:
   - stage: Build
@@ -16,17 +16,17 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/Terraform/global"
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall/Terraform/global"
               ArtifactName: "global"
               publishLocation: "Container"
             displayName: "Create Artifact for the global folder"
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/Terraform/services"
-              ArtifactName: "psug"
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall/Terraform/services"
+              ArtifactName: "DSCCommunityCall"
               publishLocation: "Container"
-            displayName: "Create Artifact for all psug services"
+            displayName: "Create Artifact for all DSCCommunityCall services"
 
   - stage: AzureAutomationAccount
     dependsOn: Build
@@ -53,9 +53,9 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "psug"
+              artifactName: "DSCCommunityCall"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download psug artifact"
+            displayName: "Download DSCCommunityCall artifact"
 
           - template: templates/terraform.yml
             parameters:
@@ -65,8 +65,8 @@ stages:
               backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
               backendAzureRmContainerName: "psug-aadsc"
               backendAzureRmKey: "psug.tfstate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/automationaccount"
-              description: "PSUG automation account"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/automationaccount"
+              description: "DSCCommunityCall automation account"
               planparameters: "-var automation_account_name=${{variables.automationAccountName}} -var rg_name=${{variables.automationAccountRGName}}"
 
   - stage: VNET
@@ -94,9 +94,9 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "psug"
+              artifactName: "DSCCommunityCall"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download psug artifact"
+            displayName: "Download DSCCommunityCall artifact"
 
           - template: templates/terraform.yml
             parameters:
@@ -106,8 +106,8 @@ stages:
               backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
               backendAzureRmContainerName: "psug-vnet"
               backendAzureRmKey: "psug.tfstate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/vnet"
-              description: "PSUG VNET account"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/vnet"
+              description: "DSCCommunityCall VNET account"
               planparameters: "-var rg_name=${{variables.VNetRGName}}"
 
   - stage: NSG
@@ -135,9 +135,9 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "psug"
+              artifactName: "DSCCommunityCall"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download psug artifact"
+            displayName: "Download DSCCommunityCall artifact"
 
           - template: templates/terraform.yml
             parameters:
@@ -147,8 +147,8 @@ stages:
               backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
               backendAzureRmContainerName: "psug-nsg"
               backendAzureRmKey: "psugnsg.tfstate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/networksecuritygroup"
-              description: "PSUG DC"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/networksecuritygroup"
+              description: "DSCCommunityCall DC"
               planparameters: "-var rg_name=${{variables.NSGRGName}} -var subnet_rg=${{variables.VNetRGName}}"
 
   - stage: StorageAccounts
@@ -176,9 +176,9 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "psug"
+              artifactName: "DSCCommunityCall"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download psug artifact"
+            displayName: "Download DSCCommunityCall artifact"
 
           - template: templates/terraform.yml
             parameters:
@@ -188,8 +188,8 @@ stages:
               backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
               backendAzureRmContainerName: "psug-sa"
               backendAzureRmKey: "psugdscsa.tfstate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/storageaccount/dscstrorage"
-              description: "PSUG SA"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/storageaccount/dscstrorage"
+              description: "DSCCommunityCall SA"
               planparameters: "-var rg_name=${{variables.DSCSARGName}} -var storage_account_name=${{variables.DSCSAName}}"
 
   - stage: AAVMS
@@ -217,9 +217,9 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "psug"
+              artifactName: "DSCCommunityCall"
               downloadPath: "$(System.DefaultWorkingDirectory)"
-            displayName: "Download psug artifact"
+            displayName: "Download DSCCommunityCall artifact"
 
           - template: templates/terraform.yml
             parameters:
@@ -229,6 +229,6 @@ stages:
               backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
               backendAzureRmContainerName: "psug-vms"
               backendAzureRmKey: "psugdc.tfstate"
-              workingDirectory: "$(System.DefaultWorkingDirectory)/psug/virtualmachines/DC"
-              description: "PSUG DC"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/virtualmachines/DC"
+              description: "DSCCommunityCall DC"
               planparameters: "-var rg_name=${{variables.VMRGName}} -var subnet_rg=${{variables.VNetRGName}} -var aadsc_rg=${{variables.automationAccountRGName}} -var aadsc_name=${{variables.automationAccountName}}"

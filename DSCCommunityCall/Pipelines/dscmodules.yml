@@ -2,8 +2,8 @@
 trigger:
   paths:
     include:
-      - PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations
-      - PowerShellUserGroup-2021-07-08/Pipelines/dscmodules.yml
+      - DSCCommunityCall/DSC/DSCConfigurations
+      - DSCCommunityCall/Pipelines/dscmodules.yml
 
 stages:
   - stage: Build
@@ -19,14 +19,14 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/NeededModules.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/NeededModules.ps1"
               pwsh: false
             displayName: Install Needed Modules
 
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -34,7 +34,7 @@ stages:
                 -DomainAdmin "${{variables.domainAdmin}}"
                 -DomainAdminPwd "$env:DomainAdminPwd"
                 -DomainName "${{variables.domainName}}"
-                -ConfigPath "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
@@ -50,7 +50,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations/AddDCToExistingForest/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/AddDCToExistingForest/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -58,7 +58,7 @@ stages:
                 -DomainAdmin "$(domainAdmin)"
                 -DomainAdminPwd "$env:DomainAdminPwd"
                 -DomainName "$(domainName)"
-                -ConfigPath "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations/AddDCToExistingForest/Config.psd1"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/AddDCToExistingForest/Config.psd1"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
@@ -74,7 +74,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/DSCConfigurations/CreateFile/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateFile/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -95,7 +95,7 @@ stages:
               targetType: "inline"
               script: |
                 $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/AADSCNeededModules.ps1"
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/AADSCNeededModules.ps1"
                   Destination = "$(Build.ArtifactStagingDirectory)"
                   Force       = $true
                 }
@@ -107,7 +107,7 @@ stages:
               targetType: "inline"
               script: |
                 $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/PowerShellUserGroup-2021-07-08/DSC/AADSCInstallNodeConfiguration.ps1"
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/AADSCInstallNodeConfiguration.ps1"
                   Destination = "$(Build.ArtifactStagingDirectory)"
                   Force       = $true
                 }
