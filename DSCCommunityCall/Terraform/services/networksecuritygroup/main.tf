@@ -1,6 +1,6 @@
-data "azurerm_subnet" "psugsubnet" {
-  name                 = "psug-snet"
-  virtual_network_name = "psug-vnet"
+data "azurerm_subnet" "subnet" {
+  name                 = var.snet_name
+  virtual_network_name = var.vnet_name
   resource_group_name  = var.subnet_rg
 }
 
@@ -18,13 +18,13 @@ module "ResourceGroup" {
 
 #################################################################################
 
-module "psug_network_security_group" {
+module "network_security_group" {
   source = "../../global/networksecuritygroup"
 
-  network_security_group_name = "psug-nsg"
+  network_security_group_name = var.nsg_name
   location                    = "West Europe"
   resource_group_name         = module.ResourceGroup.resource_group_name
-  tag_function                = "NSG for psug-snet"
+  tag_function                = "NSG for ${var.snet_name}"
   tag_application             = "NSG"
   tag_applicationowner        = "Constantin Hager"
   tag_department              = "IT"
@@ -48,9 +48,9 @@ module "allow_3389_in" {
   direction                   = "Inbound"
 }
 
-module "nsg_psug_snet" {
+module "nsg_snet" {
   source = "../../global/netorksecuritygrouptosubnet"
 
-  subnet_id                 = data.azurerm_subnet.psugsubnet.id
-  network_security_group_id = module.psug_network_security_group.network_security_group_id
+  subnet_id                 = data.azurerm_subnet.subnet.id
+  network_security_group_id = module.network_security_group.network_security_group_id
 }
