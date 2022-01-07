@@ -189,7 +189,7 @@ stages:
               backendAzureRmKey: "dscccdscstorage01.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/storageaccount/dscstorage"
               description: "DSCCommunityCall SA"
-              planparameters: "-var rg_name=${{variables.DSCSARGName}} -var storage_account_name=${{variables.DSCSAName}}"
+              planparameters: "-var rg_name=${{variables.DSCSARGName}} -var storage_account_name=${{variables.DSCSAName}} -var storage_container_name=${{variables.DSCSAContainerName}}"
 
   - stage: AAVMS
     dependsOn: Build

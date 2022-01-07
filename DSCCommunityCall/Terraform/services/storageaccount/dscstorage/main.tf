@@ -24,7 +24,7 @@ module "storageaccount" {
 }
 
 module "storagecontainer" {
-  source                   = "../../../global/storagecontainer"
-  storage_container_name = "dsc"
-  storage_account_name = module.storageaccount.storage_account_name
+  source                 = "../../../global/storagecontainer"
+  storage_container_name = var.storage_container_name
+  storage_account_name   = module.storageaccount.storage_account_name
 }
