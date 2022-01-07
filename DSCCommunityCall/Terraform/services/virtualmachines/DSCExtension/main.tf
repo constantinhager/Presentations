@@ -106,7 +106,7 @@ resource "azurerm_virtual_machine_extension" "dscextension" {
   virtual_machine_id         = module.dc.windows_virtual_machine_id
   publisher                  = "Microsoft.Powershell"
   type                       = "DSC"
-  type_handler_version       = "2.9"
+  type_handler_version       = "2.77"
   auto_upgrade_minor_version = true
 
   protected_settings = <<PROTECTED_SETTINGS
@@ -117,7 +117,8 @@ PROTECTED_SETTINGS
 
   settings = <<SETTINGS
     {
-      configuration: {
+      "WmfVersion": "latest",
+      "configuration": {
         "url": "https://dscccdscstorage01.blob.core.windows.net/dsc/Config.ps1.zip",
         "script": "Config.ps1",
         "function": "CreateFile"
