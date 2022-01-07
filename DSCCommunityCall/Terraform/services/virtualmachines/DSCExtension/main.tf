@@ -100,11 +100,7 @@ module "dc" {
   tag_location         = "West Europe"
 }
 
-resource "azurerm_virtual_machine_extension" "aadsc" {
-
-  depends_on = [
-    module.addatadiskattachment
-  ]
+resource "azurerm_virtual_machine_extension" "dscextension" {
 
   name                       = "dcaadsc"
   virtual_machine_id         = module.dc.windows_virtual_machine_id
@@ -124,7 +120,7 @@ PROTECTED_SETTINGS
       configuration: {
         "url": "https://dscccdscstorage01.blob.core.windows.net/dsc/Config.ps1.zip",
         "script": "Config.ps1",
-        "function": "CreateFile",
+        "function": "CreateFile"
       }
     }
 SETTINGS
