@@ -60,7 +60,7 @@ stages:
             inputs:
               azureSubscription: "MSDN"
               ScriptType: "FilePath"
-              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCNeededModules.ps1"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/DSCExtension/DSCExtension/UploadDSCExtension.ps1"
               azurePowerShellVersion: "LatestVersion"
               pwsh: true
             displayName: "Upload zip to Storage account"
