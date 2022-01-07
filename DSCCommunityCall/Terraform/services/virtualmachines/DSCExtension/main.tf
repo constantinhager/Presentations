@@ -110,14 +110,22 @@ resource "azurerm_virtual_machine_extension" "aadsc" {
   virtual_machine_id         = module.dc.windows_virtual_machine_id
   publisher                  = "Microsoft.Powershell"
   type                       = "DSC"
-  type_handler_version       = "2.75"
+  type_handler_version       = "2.9"
   auto_upgrade_minor_version = true
+
+  protected_settings = <<PROTECTED_SETTINGS
+        {
+            "configurationUrlSasToken": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-03-31T16:56:31Z&st=2022-01-06T09:00:31Z&spr=https&sig=ZIKKHG9M5bVDl6g7wPlysO6TVoE0A0Wcfy0Yaq%2FokOg%3D"
+        }
+PROTECTED_SETTINGS
 
   settings = <<SETTINGS
     {
-        "ModulesUrl": "https://dscccdscstorage01.blob.core.windows.net/dsc/Config.ps1.zip",
-        "SasToken": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-03-31T16:56:31Z&st=2022-01-06T09:00:31Z&spr=https&sig=ZIKKHG9M5bVDl6g7wPlysO6TVoE0A0Wcfy0Yaq%2FokOg%3D",
-        "ConfigurationFunction": "Config.ps1\\CreateFile",
+      configuration: {
+        "url": "https://dscccdscstorage01.blob.core.windows.net/dsc/Config.ps1.zip",
+        "script": "Config.ps1",
+        "function": "CreateFile",
+      }
     }
 SETTINGS
 
