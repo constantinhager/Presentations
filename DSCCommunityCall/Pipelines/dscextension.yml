@@ -19,13 +19,14 @@ stages:
             inputs:
               targetType: "inline"
               script: |
-                $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCExtension"
-                  Destination = "$(Build.ArtifactStagingDirectory)"
-                  Force       = $true
-                  Recurse     = $true
-                }
-                Copy-Item @splat
+                #$splat = @{
+                #  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCExtension"
+                #  Destination = "$(Build.ArtifactStagingDirectory)"
+                #  Force       = $true
+                #  Recurse     = $true
+                #}
+                #Copy-Item @splat
+                Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse
             displayName: Copy DSCExtension to ArtifactStagingDirectory
 
           - task: PublishBuildArtifacts@1
