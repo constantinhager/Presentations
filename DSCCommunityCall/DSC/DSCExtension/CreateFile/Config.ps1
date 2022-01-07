@@ -1,11 +1,3 @@
-param
-(
-    # Parameter help description
-    [Parameter(Mandatory)]
-    [String]
-    $OutputPath
-)
-
 configuration CreateFile {
 
     Import-DscResource -ModuleName xPSDesiredStateConfiguration
@@ -13,13 +5,10 @@ configuration CreateFile {
     # E.g: $AllNodes.Where("Role -eq Web").NodeName
     node localhost
     {
-        File CreateFile
-        {
+        File CreateFile {
             Type            = 'Directory'
             DestinationPath = 'C:\TestUser3'
-            Ensure          = "Present"
+            Ensure          = 'Present'
         }
     }
 }
-
-CreateFile -OutputPath $OutputPath
