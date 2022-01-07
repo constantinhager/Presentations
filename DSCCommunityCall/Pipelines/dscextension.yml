@@ -12,7 +12,7 @@ stages:
           - template: variables/prod/prod_vars.yml
 
         pool:
-          vmImage: "windows-latest"
+          vmImage: "ubuntu-latest"
 
         steps:
           - task: PowerShell@2
@@ -34,26 +34,27 @@ stages:
               ArtifactName: "DSCExtension"
               publishLocation: "Container"
             displayName: "Create Artifact for DSCExtension files"
-#  - stage: PublishToAzureAutomationDSC
-#    dependsOn: Build
-#    condition: succeeded()
-#
-#    jobs:
-#      - job: Deploy
-#        variables:
-#          - template: variables/prod/prod_vars.yml
-#
-#        pool:
-#          vmImage: "ubuntu-latest"
-#
-#        steps:
-#          - task: DownloadBuildArtifacts@0
-#            inputs:
-#              buildType: "current"
-#              downloadType: "single"
-#              artifactName: "mof"
-#              downloadPath: "$(System.DefaultWorkingDirectory)"
-#            displayName: "Download mof global artifact"
+
+  - stage: PublishToAzureStorageAccount
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "windows-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCExtension"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCExtension global artifact"
 #
 #          - task: AzurePowerShell@5
 #            inputs:
