@@ -55,21 +55,12 @@ stages:
               artifactName: "DSCExtension"
               downloadPath: "$(System.DefaultWorkingDirectory)"
             displayName: "Download DSCExtension global artifact"
-#
-#          - task: AzurePowerShell@5
-#            inputs:
-#              azureSubscription: "MSDN"
-#              ScriptType: "FilePath"
-#              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCNeededModules.ps1"
-#              azurePowerShellVersion: "LatestVersion"
-#              pwsh: true
-#            displayName: "Add the needed DSC Modules to Azure Automation DSC"
-#
-#          - task: AzurePowerShell@5
-#            inputs:
-#              azureSubscription: "MSDN"
-#              ScriptType: "FilePath"
-#              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCInstallNodeConfiguration.ps1"
-#              azurePowerShellVersion: "LatestVersion"
-#              pwsh: true
-#            displayName: "Add Mofs to Azure Automation DSC"
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCNeededModules.ps1"
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Upload zip to Storage account"

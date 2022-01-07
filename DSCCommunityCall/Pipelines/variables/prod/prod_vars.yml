@@ -33,3 +33,5 @@ variables:
     value: dscccdscstorage01
   - name: DSCSARGName
     value: dscccsa-rg
+  - name: DSCSAContainerName
+    value: dsc
