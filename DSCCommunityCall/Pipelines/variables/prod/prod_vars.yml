@@ -28,7 +28,7 @@ variables:
   - name: VMDSCERGName
     value: dsccc-dscevm-rg
   - name: VMDSCEName
-    value: dsccc-dscextension
+    value: dsccc-dscext
   - name: NSGRGName
     value: dsccc-nsg-rg
   - name: NSGName
