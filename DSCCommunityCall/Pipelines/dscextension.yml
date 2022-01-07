@@ -1,0 +1,74 @@
+# specific path build
+trigger:
+  paths:
+    include:
+      - DSCCommunityCall/DSC/DSCExtension
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "windows-latest"
+
+        steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: |
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCExtension"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                  Recurce     = $true
+                }
+                Copy-Item @splat
+            displayName: Copy DSCExtension to ArtifactStagingDirectory
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "DSCExtension"
+              publishLocation: "Container"
+            displayName: "Create Artifact for DSCExtension files"
+#  - stage: PublishToAzureAutomationDSC
+#    dependsOn: Build
+#    condition: succeeded()
+#
+#    jobs:
+#      - job: Deploy
+#        variables:
+#          - template: variables/prod/prod_vars.yml
+#
+#        pool:
+#          vmImage: "ubuntu-latest"
+#
+#        steps:
+#          - task: DownloadBuildArtifacts@0
+#            inputs:
+#              buildType: "current"
+#              downloadType: "single"
+#              artifactName: "mof"
+#              downloadPath: "$(System.DefaultWorkingDirectory)"
+#            displayName: "Download mof global artifact"
+#
+#          - task: AzurePowerShell@5
+#            inputs:
+#              azureSubscription: "MSDN"
+#              ScriptType: "FilePath"
+#              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCNeededModules.ps1"
+#              azurePowerShellVersion: "LatestVersion"
+#              pwsh: true
+#            displayName: "Add the needed DSC Modules to Azure Automation DSC"
+#
+#          - task: AzurePowerShell@5
+#            inputs:
+#              azureSubscription: "MSDN"
+#              ScriptType: "FilePath"
+#              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCInstallNodeConfiguration.ps1"
+#              azurePowerShellVersion: "LatestVersion"
+#              pwsh: true
+#            displayName: "Add Mofs to Azure Automation DSC"
