@@ -25,6 +25,10 @@ variables:
     value: dsccc-aavm-rg
   - name: DCVMName
     value: dsccc-dc01
+  - name: VMDSCERGName
+    value: dsccc-dscevm-rg
+  - name: VMDSCEName
+    value: dsccc-dscextension
   - name: NSGRGName
     value: dsccc-nsg-rg
   - name: NSGName

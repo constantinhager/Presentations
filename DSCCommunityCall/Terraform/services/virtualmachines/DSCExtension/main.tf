@@ -1,11 +1,6 @@
-data "azurerm_automation_account" "aadsc" {
-  name                = var.aadsc_name
-  resource_group_name = var.aadsc_rg
-}
-
-data "azurerm_subnet" "psugvnet" {
-  name                 = "psug-snet"
-  virtual_network_name = "psug-vnet"
+data "azurerm_subnet" "subnet" {
+  name                 = var.snet_name
+  virtual_network_name = var.vnet_name
   resource_group_name  = var.subnet_rg
 }
 
@@ -26,13 +21,13 @@ module "ResourceGroup" {
 module "publicip_mgmt_dc" {
   source = "../../../global/publicipdnslabel"
 
-  public_ip_name       = "psug-dc-pip"
+  public_ip_name       = "${var.vm_name}-pip"
   location             = "West Europe"
   resource_group_name  = module.ResourceGroup.resource_group_name
   allocation_method    = "Static"
   sku                  = "Standard"
-  domain_name_label    = "psug-dc-pip"
-  tag_function         = "public ip for dc"
+  domain_name_label    = "${var.vm_name}-pip"
+  tag_function         = "public ip for ${var.vm_name}"
   tag_application      = "dc"
   tag_applicationowner = "Constantin Hager"
   tag_department       = "IT"
@@ -42,18 +37,18 @@ module "publicip_mgmt_dc" {
 module "dc_nic" {
   source = "../../../global/publicnetworkinterface"
 
-  private_network_interface_name                 = "psug-dc-nic01"
+  private_network_interface_name                 = "${var.vm_name}-nic01"
   location                                       = "West Europe"
   resource_group_name                            = module.ResourceGroup.resource_group_name
   enable_ip_forwarding                           = false
   enable_accelerated_networking                  = false
   ip_configuration_name                          = "ipconfig1"
-  ip_configuration_subnet_id                     = data.azurerm_subnet.psugvnet.id
+  ip_configuration_subnet_id                     = data.azurerm_subnet.subnet.id
   ip_configuration_private_ip_address_allocation = "Static"
   ip_configuration_primary                       = false
-  ip_configuration_private_ip_address            = "172.20.1.10"
+  ip_configuration_private_ip_address            = "172.20.1.11"
   ip_configuration_public_ip_address_id          = module.publicip_mgmt_dc.public_ip_address_id
-  tag_function                                   = "NIC for dc"
+  tag_function                                   = "NIC for ${var.vm_name}"
   tag_application                                = "DC"
   tag_applicationowner                           = "Constantin Hager"
   tag_department                                 = "IT"
@@ -64,12 +59,12 @@ module "dc_nic" {
 module "availabilityset" {
   source = "../../../global/availabilityset"
 
-  availability_set_name = "ad-av"
+  availability_set_name = "dsce-av"
   location              = "West Europe"
   managed               = true
   resource_group_name   = module.ResourceGroup.resource_group_name
-  tag_function          = "Availability Set for DCs"
-  tag_application       = "AD Controller"
+  tag_function          = "Availability Set for DSC Extension VMs"
+  tag_application       = "DSC Extension VMs"
   tag_applicationowner  = "Constantin Hager"
   tag_department        = "IT"
   tag_location          = "West Europe"
@@ -78,7 +73,7 @@ module "availabilityset" {
 module "dc" {
   source = "../../../global/virtualmachinewindowsfrommarketplace"
 
-  virtual_machine_name = "psug-dc"
+  virtual_machine_name = var.vm_name
   resource_group_name  = module.ResourceGroup.resource_group_name
   location             = "West Europe"
   size                 = "Standard_B2ms"
@@ -96,36 +91,13 @@ module "dc" {
   source_image_reference_sku       = "2022-datacenter"
 
   os_disk_size_gb = 127
-  os_disk_name    = "psug-dc-osdisk"
+  os_disk_name    = "${var.vm_name}-osdisk"
 
-  tag_function         = "DC"
-  tag_application      = "AD Controller"
+  tag_function         = "DSC Extension VM"
+  tag_application      = "DSC Extension VM"
   tag_applicationowner = "Constantin Hager"
   tag_department       = "IT"
   tag_location         = "West Europe"
-}
-
-module "addatadisk" {
-  source = "../../../global/manageddiskempty"
-
-  disk_size_gb         = 32
-  location             = "West Europe"
-  managed_disk_name    = "psug-dc-datadisk01"
-  resource_group_name  = module.ResourceGroup.resource_group_name
-  storage_account_type = "Standard_LRS"
-  tag_function         = "dc Datadisk"
-  tag_application      = "AD Controller Datadisk"
-  tag_applicationowner = "Constantin Hager"
-  tag_department       = "IT"
-  tag_location         = "West Europe"
-}
-
-module "addatadiskattachment" {
-  source             = "../../../global/datadiskattachment"
-  caching            = "None"
-  managed_disk_id    = module.addatadisk.managed_disk_id
-  lun                = 0
-  virtual_machine_id = module.dc.windows_virtual_machine_id
 }
 
 resource "azurerm_virtual_machine_extension" "aadsc" {
@@ -141,57 +113,17 @@ resource "azurerm_virtual_machine_extension" "aadsc" {
   type_handler_version       = "2.75"
   auto_upgrade_minor_version = true
 
-  protected_settings = <<PROTECTED_SETTINGS
-        {
-          "Items": {
-            "registrationKeyPrivate": "${data.azurerm_automation_account.aadsc.primary_key}"
-          }
-        }
-PROTECTED_SETTINGS
-
   settings = <<SETTINGS
     {
-        "Properties": [
-            {
-              "Name": "RegistrationKey",
-              "Value": {
-                "UserName": "PLACEHOLDER_DONOTUSE",
-                "Password": "PrivateSettingsRef:registrationKeyPrivate"
-              },
-              "TypeName": "System.Management.Automation.PSCredential"
-            },
-            {
-              "Name": "RegistrationUrl",
-              "Value": "${data.azurerm_automation_account.aadsc.endpoint}",
-              "TypeName": "System.String"
-            },
-            {
-              "Name": "NodeConfigurationName",
-              "Value": "CreateNewADForest.CreateNewADForest",
-              "TypeName": "System.String"
-            },
-            {
-              "Name": "ConfigurationMode",
-              "Value": "ApplyandAutoCorrect",
-              "TypeName": "System.String"
-            },
-            {
-              "Name": "RebootNodeIfNeeded",
-              "Value": true,
-              "TypeName": "System.Boolean"
-            },
-            {
-              "Name": "ActionAfterReboot",
-              "Value": "ContinueConfiguration",
-              "TypeName": "System.String"
-            }
-          ]
+        "ModulesUrl": "https://dscccdscstorage01.blob.core.windows.net/dsc/Config.ps1.zip",
+        "SasToken": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-03-31T16:56:31Z&st=2022-01-06T09:00:31Z&spr=https&sig=ZIKKHG9M5bVDl6g7wPlysO6TVoE0A0Wcfy0Yaq%2FokOg%3D",
+        "ConfigurationFunction": "Config.ps1\\CreateFile",
     }
 SETTINGS
 
   tags = {
-    tag_function         = "AADSC Extension"
-    tag_application      = "AADSC Extension for AD Controller"
+    tag_function         = "DSC Extension"
+    tag_application      = "DSC Extension for DSC Extension VM"
     tag_applicationowner = "Constantin Hager"
     tag_department       = "IT"
     tag_location         = "West Europe"
