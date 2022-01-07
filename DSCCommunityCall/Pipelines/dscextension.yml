@@ -23,7 +23,7 @@ stages:
                   Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCExtension"
                   Destination = "$(Build.ArtifactStagingDirectory)"
                   Force       = $true
-                  Recurce     = $true
+                  Recurse     = $true
                 }
                 Copy-Item @splat
             displayName: Copy DSCExtension to ArtifactStagingDirectory
