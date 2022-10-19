@@ -1,9 +1,2 @@
-#  Local .terraform directories
-**/.terraform/*
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-# .tfvars files
-*.tfvars
+.terraform/plugins/windows_amd64/terraform-provider-azurerm_v2.0.0_x5.exe
+.terraform/plugins/windows_amd64/lock.json

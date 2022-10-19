@@ -26,12 +26,12 @@ module "ResourceGroup" {
 module "publicip_mgmt_dc" {
   source = "../../../global/publicipdnslabel"
 
-  public_ip_name       = "psug-dc-pip"
+  public_ip_name       = "dc-pip"
   location             = "West Europe"
   resource_group_name  = module.ResourceGroup.resource_group_name
   allocation_method    = "Static"
   sku                  = "Standard"
-  domain_name_label    = "psug-dc-pip"
+  domain_name_label    = "dc-pip"
   tag_function         = "public ip for dc"
   tag_application      = "dc"
   tag_applicationowner = "Constantin Hager"
@@ -42,7 +42,7 @@ module "publicip_mgmt_dc" {
 module "dc_nic" {
   source = "../../../global/publicnetworkinterface"
 
-  private_network_interface_name                 = "psug-dc-nic01"
+  private_network_interface_name                 = "dc-nic01"
   location                                       = "West Europe"
   resource_group_name                            = module.ResourceGroup.resource_group_name
   enable_ip_forwarding                           = false
@@ -78,7 +78,7 @@ module "availabilityset" {
 module "dc" {
   source = "../../../global/virtualmachinewindowsfrommarketplace"
 
-  virtual_machine_name = "psug-dc"
+  virtual_machine_name = "dc"
   resource_group_name  = module.ResourceGroup.resource_group_name
   location             = "West Europe"
   size                 = "Standard_B2ms"
@@ -91,12 +91,8 @@ module "dc" {
   network_interface_ids                = module.dc_nic.private_network_interface_id
   boot_diagnostics_storage_account_uri = data.azurerm_storage_account.diagstore.primary_blob_endpoint
 
-  source_image_reference_publisher = "MicrosoftWindowsServer"
-  source_image_reference_offer     = "WindowsServer"
-  source_image_reference_sku       = "2022-datacenter"
-
   os_disk_size_gb = 127
-  os_disk_name    = "psug-dc-osdisk"
+  os_disk_name    = "dc-osdisk"
 
   tag_function         = "DC"
   tag_application      = "AD Controller"
@@ -110,7 +106,7 @@ module "addatadisk" {
 
   disk_size_gb         = 32
   location             = "West Europe"
-  managed_disk_name    = "psug-dc-datadisk01"
+  managed_disk_name    = "dc-datadisk01"
   resource_group_name  = module.ResourceGroup.resource_group_name
   storage_account_type = "Standard_LRS"
   tag_function         = "dc Datadisk"
@@ -128,12 +124,7 @@ module "addatadiskattachment" {
   virtual_machine_id = module.dc.windows_virtual_machine_id
 }
 
-resource "azurerm_virtual_machine_extension" "aadsc" {
-
-  depends_on = [
-    module.addatadiskattachment
-  ]
-
+resource "azurerm_virtual_machine_extension" "antimalewareextension" {
   name                       = "dcaadsc"
   virtual_machine_id         = module.dc.windows_virtual_machine_id
   publisher                  = "Microsoft.Powershell"
