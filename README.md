@@ -11,4 +11,4 @@ Repository for all my presentations
 | 2021-02-04 | PowerShell UserGroup innsalzach - PowerShell & MS Graph                                |
 | 2021-06-10 | PowerShell UserGroup innsalzach - PowerShell Repository                                |
 | 2021-07-08 | PowerShell UserGroup innsalzach - PowerShell DSC Present and Future                    |
-| 2022-07-27 | DSC Core Community Call - Azure Automation DSC & Azure VM extension. How do they work together?           |
+| 2022-10-19 | DSC Core Community Call - Azure Automation DSC & Azure VM extension. How do they work together?|
