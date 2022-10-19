@@ -79,7 +79,7 @@ module "dc" {
   size                 = "Standard_B2ms"
 
   admin_username = "azureuser"
-  admin_password = "yourpassword"
+  admin_password = var.password
 
   time_zone                            = "W. Europe Standard Time"
   availablility_set_id                 = module.availabilityset.availability_set_id

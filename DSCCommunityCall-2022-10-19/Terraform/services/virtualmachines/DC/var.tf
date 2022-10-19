@@ -26,3 +26,6 @@ variable "aadsc_name" {
   description = "The name of the Azure Automation Account that can be changed through the pipeline"
 }
 
+variable "password" {
+  description = "The password of the VM."
+}

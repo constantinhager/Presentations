@@ -17,3 +17,6 @@ variable "vnet_name" {
 variable "snet_name" {
   description = "The name of the snet that can be changed through the pipeline"
 }
+variable "password" {
+  description = "The password of the VM."
+}
