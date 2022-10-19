@@ -8,6 +8,7 @@ resource "azurerm_public_ip" "pip" {
   sku                     = var.sku
   domain_name_label       = var.domain_name_label
 
+  zones = ["1", "2", "3"]
   tags = {
     Function         = var.tag_function
     Application      = var.tag_application
