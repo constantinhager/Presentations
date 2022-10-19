@@ -2,7 +2,7 @@
 trigger:
   paths:
     include:
-      - DSCCommunityCall/DSC/DSCConfigurations
+      - DSCCommunityCall-2022-10-19/DSC/DSCConfigurations
 
 stages:
   - stage: Build
@@ -18,14 +18,14 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/NeededModules.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/NeededModules.ps1"
               pwsh: false
             displayName: Install Needed Modules
 
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -33,7 +33,7 @@ stages:
                 -DomainAdmin "${{variables.domainAdmin}}"
                 -DomainAdminPwd "$env:DomainAdminPwd"
                 -DomainName "${{variables.domainName}}"
-                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
@@ -49,7 +49,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/AddDCToExistingForest/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/AddDCToExistingForest/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -57,7 +57,7 @@ stages:
                 -DomainAdmin "$(domainAdmin)"
                 -DomainAdminPwd "$env:DomainAdminPwd"
                 -DomainName "$(domainName)"
-                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/AddDCToExistingForest/Config.psd1"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/AddDCToExistingForest/Config.psd1"
             env:
               DomainAdminPwd: $(DomainAdminPwd)
               SafeModePwd: $(SafeModepwd)
@@ -73,7 +73,7 @@ stages:
           - task: PowerShell@2
             inputs:
               targetType: "filepath"
-              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/DSCConfigurations/CreateFile/Config.ps1"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateFile/Config.ps1"
               pwsh: false
               arguments: >
                 -OutputPath "$(Build.ArtifactStagingDirectory)"
@@ -94,7 +94,7 @@ stages:
               targetType: "inline"
               script: |
                 $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/AADSCNeededModules.ps1"
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/AADSCNeededModules.ps1"
                   Destination = "$(Build.ArtifactStagingDirectory)"
                   Force       = $true
                 }
@@ -106,7 +106,7 @@ stages:
               targetType: "inline"
               script: |
                 $splat = @{
-                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall/DSC/AADSCInstallNodeConfiguration.ps1"
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/AADSCInstallNodeConfiguration.ps1"
                   Destination = "$(Build.ArtifactStagingDirectory)"
                   Force       = $true
                 }

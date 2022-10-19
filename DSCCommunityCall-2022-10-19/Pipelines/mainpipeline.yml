@@ -2,7 +2,7 @@
 trigger:
   paths:
     include:
-      - DSCCommunityCall/Terraform/*
+      - DSCCommunityCall-2022-10-19/Terraform/*
 
 stages:
   - stage: Build
@@ -15,14 +15,14 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall/Terraform/global"
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/Terraform/global"
               ArtifactName: "global"
               publishLocation: "Container"
             displayName: "Create Artifact for the global folder"
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall/Terraform/services"
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/Terraform/services"
               ArtifactName: "DSCCommunityCall"
               publishLocation: "Container"
             displayName: "Create Artifact for all DSCCommunityCall services"
