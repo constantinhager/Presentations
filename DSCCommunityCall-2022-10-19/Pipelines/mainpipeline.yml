@@ -271,4 +271,4 @@ stages:
               backendAzureRmKey: "dscccdscextension.tfstate"
               workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/virtualmachines/DSCExtension"
               description: "DSCCommunityCall DSCExtension VM"
-              planparameters: "-var rg_name=${{variables.VMDSCERGName}} -var vm_name=${{variables.VMDSCEName}} -var subnet_rg=${{variables.VNetRGName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var password=$(password)"
+              planparameters: "-var rg_name=${{variables.VMDSCERGName}} -var vm_name=${{variables.VMDSCEName}} -var subnet_rg=${{variables.VNetRGName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var password=$(password) -var SASToken=$(SASToken)"
