@@ -1,0 +1,160 @@
+# specific path build
+trigger:
+  paths:
+    include:
+      - DSCCommunityCall-2022-10-19/DSC/DSCConfigurations
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "windows-latest"
+
+        steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: "filepath"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/NeededModules.ps1"
+              pwsh: false
+            displayName: Install Needed Modules
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "filepath"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateNewADForest/Config.ps1"
+              pwsh: false
+              arguments: >
+                -OutputPath "$(Build.ArtifactStagingDirectory)"
+                -SafeModepwd "$env:SafeModePwd"
+                -DomainAdmin "${{variables.domainAdmin}}"
+                -DomainAdminPwd "$env:DomainAdminPwd"
+                -DomainName "${{variables.domainName}}"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateNewADForest/Config.psd1"
+            env:
+              DomainAdminPwd: $(DomainAdminPwd)
+              SafeModePwd: $(SafeModepwd)
+            displayName: Compile CreateNewADForest
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: >
+                Rename-Item -Path "$(Build.ArtifactStagingDirectory)\localhost.mof" -NewName 'CreateNewADForest.mof'
+            displayName: Rename file CreateNewADForest.mof
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "filepath"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/AddDCToExistingForest/Config.ps1"
+              pwsh: false
+              arguments: >
+                -OutputPath "$(Build.ArtifactStagingDirectory)"
+                -SafeModepwd "$env:SafeModePwd"
+                -DomainAdmin "$(domainAdmin)"
+                -DomainAdminPwd "$env:DomainAdminPwd"
+                -DomainName "$(domainName)"
+                -ConfigPath "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/AddDCToExistingForest/Config.psd1"
+            env:
+              DomainAdminPwd: $(DomainAdminPwd)
+              SafeModePwd: $(SafeModepwd)
+            displayName: Compile AddDCToExistingForest
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: >
+                Rename-Item -Path "$(Build.ArtifactStagingDirectory)\localhost.mof" -NewName 'AddDCToExistingForest.mof'
+            displayName: Rename file CreateNewADForest.mof
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "filepath"
+              filePath: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCConfigurations/CreateFile/Config.ps1"
+              pwsh: false
+              arguments: >
+                -OutputPath "$(Build.ArtifactStagingDirectory)"
+            env:
+              DomainAdminPwd: $(DomainAdminPwd)
+              SafeModePwd: $(SafeModepwd)
+            displayName: Compile CreateFile
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: >
+                Rename-Item -Path "$(Build.ArtifactStagingDirectory)\localhost.mof" -NewName 'CreateFile.mof'
+            displayName: Rename file CreateFile.mof
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: |
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/AADSCNeededModules.ps1"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                }
+                Copy-Item @splat
+            displayName: Copy AADSCNeededModules.ps1 to ArtifactStagingDirectory
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: |
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/AADSCInstallNodeConfiguration.ps1"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                }
+                Copy-Item @splat
+            displayName: Copy AADSCInstallNodeConfiguration.ps1 to ArtifactStagingDirectory
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "mof"
+              publishLocation: "Container"
+            displayName: "Create Artifact for all mof files"
+
+  - stage: PublishToAzureAutomationDSC
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "mof"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download mof global artifact"
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCNeededModules.ps1"
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Add the needed DSC Modules to Azure Automation DSC"
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/mof/AADSCInstallNodeConfiguration.ps1"
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Add Mofs to Azure Automation DSC"

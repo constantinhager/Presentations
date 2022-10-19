@@ -21,3 +21,7 @@ variables:
     value: psug-vms
   - name: NSGRGName
     value: psug-nsg
+  - name: DSCSAName
+    value: psugdscstorage01
+  - name: DSCSARGName
+    value: psugsa-rg

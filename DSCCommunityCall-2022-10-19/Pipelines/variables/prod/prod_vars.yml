@@ -1,0 +1,41 @@
+variables:
+  - name: terraformVersion
+    value: 1.1.3
+  - name: serviceConnectionName
+    value: MSDN
+  - name: backendAzureRmResourceGroupName
+    value: tfstate-rg
+  - name: backendAzureRmStorageAccountName
+    value: chterraformbestpractices
+  - name: domainName
+    value: dsccc.local
+  - name: domainAdmin
+    value: dsccc\azureuser
+  - name: automationAccountName
+    value: dscccDSC
+  - name: automationAccountRGName
+    value: dsccc-aadsc
+  - name: VNetRGName
+    value: dsccc-network-rg
+  - name: VNetName
+    value: dsccc-vnet
+  - name: SnetName
+    value: dsccc-snet
+  - name: VMRGName
+    value: dsccc-aavm-rg
+  - name: DCVMName
+    value: dsccc-dc01
+  - name: VMDSCERGName
+    value: dsccc-dscevm-rg
+  - name: VMDSCEName
+    value: dsccc-dscext
+  - name: NSGRGName
+    value: dsccc-nsg-rg
+  - name: NSGName
+    value: dsccc-nsg
+  - name: DSCSAName
+    value: dscccdscstorage01
+  - name: DSCSARGName
+    value: dscccsa-rg
+  - name: DSCSAContainerName
+    value: dsc

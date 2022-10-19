@@ -151,7 +151,7 @@ stages:
               description: "PSUG DC"
               planparameters: "-var rg_name=${{variables.NSGRGName}} -var subnet_rg=${{variables.VNetRGName}}"
 
-  - stage: VMS
+  - stage: AAVMS
     dependsOn: Build
     condition: succeeded()
 

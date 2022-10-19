@@ -1,0 +1,73 @@
+# specific path build
+trigger:
+  paths:
+    include:
+      - DSCCommunityCall-2022-10-19/DSC/DSCExtension
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: "inline"
+              script: |
+                $splat = @{
+                  Path        = "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/DSC/DSCExtension"
+                  Destination = "$(Build.ArtifactStagingDirectory)"
+                  Force       = $true
+                  Recurse     = $true
+                }
+                Copy-Item @splat
+            displayName: Copy DSCExtension to ArtifactStagingDirectory
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "DSCExtension"
+              publishLocation: "Container"
+            displayName: "Create Artifact for DSCExtension files"
+
+  - stage: PublishToAzureStorageAccount
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "windows-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCExtension"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCExtension global artifact"
+
+          - task: PowerShell@2
+            inputs:
+              targetType: "filepath"
+              filePath: "$(System.DefaultWorkingDirectory)/DSCExtension/DSCExtension/NeededModules.ps1"
+              pwsh: false
+            displayName: Install Needed Modules
+
+          - task: AzurePowerShell@5
+            inputs:
+              azureSubscription: "MSDN"
+              ScriptType: "FilePath"
+              ScriptPath: "$(System.DefaultWorkingDirectory)/DSCExtension/DSCExtension/UploadDSCExtension.ps1"
+              azurePowerShellVersion: "LatestVersion"
+              pwsh: true
+            displayName: "Upload zip to Storage account"

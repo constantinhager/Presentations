@@ -1,0 +1,274 @@
+# specific path build
+trigger:
+  paths:
+    include:
+      - DSCCommunityCall-2022-10-19/Terraform/*
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/Terraform/global"
+              ArtifactName: "global"
+              publishLocation: "Container"
+            displayName: "Create Artifact for the global folder"
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.SourcesDirectory)/DSCCommunityCall-2022-10-19/Terraform/services"
+              ArtifactName: "DSCCommunityCall"
+              publishLocation: "Container"
+            displayName: "Create Artifact for all DSCCommunityCall services"
+
+  - stage: AzureAutomationAccount
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-aadsc"
+              backendAzureRmKey: "dsccc-aadsc.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/automationaccount"
+              description: "DSCCommunityCall automation account"
+              planparameters: "-var automation_account_name=${{variables.automationAccountName}} -var rg_name=${{variables.automationAccountRGName}}"
+
+  - stage: VNET
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-vnet"
+              backendAzureRmKey: "dsccc-vnet.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/vnet"
+              description: "DSCCommunityCall VNET account"
+              planparameters: "-var rg_name=${{variables.VNetRGName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}}"
+
+  - stage: NSG
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-nsg"
+              backendAzureRmKey: "dsccc-nsg.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/networksecuritygroup"
+              description: "DSCCommunityCall DC"
+              planparameters: "-var rg_name=${{variables.NSGRGName}} -var subnet_rg=${{variables.VNetRGName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var nsg_name=${{variables.NSGName}}"
+
+  - stage: StorageAccounts
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-sa"
+              backendAzureRmKey: "dscccdscstorage01.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/storageaccount/dscstorage"
+              description: "DSCCommunityCall SA"
+              planparameters: "-var rg_name=${{variables.DSCSARGName}} -var storage_account_name=${{variables.DSCSAName}} -var storage_container_name=${{variables.DSCSAContainerName}}"
+
+  - stage: AAVMS
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-vms"
+              backendAzureRmKey: "dscccdc.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/virtualmachines/DC"
+              description: "DSCCommunityCall DC"
+              planparameters: "-var rg_name=${{variables.VMRGName}} -var vm_name=${{variables.DCVMName}} -var subnet_rg=${{variables.VNetRGName}} -var aadsc_rg=${{variables.automationAccountRGName}} -var aadsc_name=${{variables.automationAccountName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var password=$(password)"
+
+  - stage: DSCExtensionVMS
+    dependsOn: Build
+    condition: succeeded()
+
+    jobs:
+      - job: Deploy
+        variables:
+          - template: variables/prod/prod_vars.yml
+
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "global"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download Azure global artifact"
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "DSCCommunityCall"
+              downloadPath: "$(System.DefaultWorkingDirectory)"
+            displayName: "Download DSCCommunityCall artifact"
+
+          - template: templates/terraform.yml
+            parameters:
+              terraformVersion: "${{variables.terraformVersion}}"
+              serviceConnectionName: "${{variables.serviceConnectionName}}"
+              backendAzureRmResourceGroupName: "${{variables.backendAzureRmResourceGroupName}}"
+              backendAzureRmStorageAccountName: "${{variables.backendAzureRmStorageAccountName}}"
+              backendAzureRmContainerName: "dsccc-vms"
+              backendAzureRmKey: "dscccdscextension.tfstate"
+              workingDirectory: "$(System.DefaultWorkingDirectory)/DSCCommunityCall/virtualmachines/DSCExtension"
+              description: "DSCCommunityCall DSCExtension VM"
+              planparameters: "-var rg_name=${{variables.VMDSCERGName}} -var vm_name=${{variables.VMDSCEName}} -var subnet_rg=${{variables.VNetRGName}} -var vnet_name=${{variables.VNetName}} -var snet_name=${{variables.SnetName}} -var password=$(password) -var SASToken=$(SASToken)"

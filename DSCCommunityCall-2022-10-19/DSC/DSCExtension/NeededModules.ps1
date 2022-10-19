@@ -1,0 +1,1 @@
+Install-Module xPSDesiredStateConfiguration -Force -RequiredVersion '9.1.0' -Repository 'PSGallery' -Verbose
