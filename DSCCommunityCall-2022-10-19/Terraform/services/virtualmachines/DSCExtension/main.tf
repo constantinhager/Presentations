@@ -111,7 +111,7 @@ resource "azurerm_virtual_machine_extension" "dscextension" {
 
   protected_settings = <<PROTECTED_SETTINGS
         {
-            "configurationUrlSasToken": "Your SAS Token to Storage Account"
+            "configurationUrlSasToken": "${var.SASToken}"
         }
 PROTECTED_SETTINGS
 

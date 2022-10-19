@@ -20,3 +20,7 @@ variable "snet_name" {
 variable "password" {
   description = "The password of the VM."
 }
+
+variable "SASToken" {
+  description = "The sas token for the zip File."
+}
