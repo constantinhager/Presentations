@@ -128,7 +128,7 @@ module "addatadiskattachment" {
   virtual_machine_id = module.dc.windows_virtual_machine_id
 }
 
-/*
+
 resource "azurerm_virtual_machine_extension" "aadsc" {
 
   depends_on = [
@@ -198,4 +198,3 @@ SETTINGS
     tag_location         = "West Europe"
   }
 }
-*/
