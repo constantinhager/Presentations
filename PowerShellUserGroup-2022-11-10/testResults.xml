@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="11" errors="0" failures="0" not-run="43" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2022-11-05" time="17:30:52">
+  <environment clr-version="4.0.30319.42000" user-domain="DESKTOP-IUKT7U4" cwd="E:\git\Presentations\PowerShellUserGroup-2022-11-10" platform="Microsoft Windows 11 Pro|C:\WINDOWS|\Device\Harddisk0\Partition4" machine-name="DESKTOP-IUKT7U4" nunit-version="2.5.8.0" os-version="10.0.22621" user="const" />
+  <culture-info current-culture="de-DE" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="23.857" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\00General.tests.ps1" executed="True" result="Success" success="True" time="0.3129" asserts="0" description="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\00General.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="[PSUGNTFS] General" executed="True" result="Success" success="True" time="0.1789" asserts="0" description="[PSUGNTFS] General">
+            <results>
+              <test-suite type="TestFixture" name="[PSUGNTFS] General.Lab deployment successful" executed="True" result="Success" success="True" time="0.1732" asserts="0" description="[PSUGNTFS] General.Lab deployment successful">
+                <results>
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] General.Lab deployment successful.[&lt;LabName&gt;] Should return the correct amount of machines" executed="True" result="Success" success="True" time="0.1684" asserts="0" description="[&lt;LabName&gt;] Should return the correct amount of machines">
+                    <results>
+                      <test-case description="[PSUGNTFS] Should return the correct amount of machines" name="[PSUGNTFS] General.Lab deployment successful.[PSUGNTFS] Should return the correct amount of machines" time="0.1684" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\FileServer.tests.ps1" executed="True" result="Success" success="True" time="2.6531" asserts="0" description="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\FileServer.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="[PSUGNTFS] FileServer" executed="True" result="Success" success="True" time="2.5695" asserts="0" description="[PSUGNTFS] FileServer">
+            <results>
+              <test-suite type="TestFixture" name="[PSUGNTFS] FileServer.Role deployment successful" executed="True" result="Success" success="True" time="2.5653" asserts="0" description="[PSUGNTFS] FileServer.Role deployment successful">
+                <results>
+                  <test-case description="[FileServer] Should return the correct amount of machines" name="[PSUGNTFS] FileServer.Role deployment successful.[FileServer] Should return the correct amount of machines" time="0.0292" asserts="0" success="True" result="Success" executed="True" />
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] FileServer.Role deployment successful.[NTFSFS1] should have all required WebServer features installed" executed="True" result="Success" success="True" time="2.5281" asserts="0" description="[NTFSFS1] should have all required WebServer features installed">
+                    <results>
+                      <test-case description="[NTFSFS1] should have all required WebServer features installed" name="[PSUGNTFS] FileServer.Role deployment successful.[NTFSFS1] should have all required WebServer features installed(NTFSFS1)" time="1.3142" asserts="0" success="True" result="Success" executed="True" />
+                      <test-case description="[NTFSFS2] should have all required WebServer features installed" name="[PSUGNTFS] FileServer.Role deployment successful.[NTFSFS2] should have all required WebServer features installed" time="1.2138" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\RootDC.tests.ps1" executed="True" result="Success" success="True" time="1.3711" asserts="0" description="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\RootDC.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="[PSUGNTFS] DC Generic" executed="True" result="Success" success="True" time="0.7293" asserts="0" description="[PSUGNTFS] DC Generic">
+            <results>
+              <test-suite type="TestFixture" name="[PSUGNTFS] DC Generic.Role deployment successful" executed="True" result="Success" success="True" time="0.7226" asserts="0" description="[PSUGNTFS] DC Generic.Role deployment successful">
+                <results>
+                  <test-case description="[RootDC] Should return the correct amount of machines" name="[PSUGNTFS] DC Generic.Role deployment successful.[RootDC] Should return the correct amount of machines" time="0.0315" asserts="0" success="True" result="Success" executed="True" />
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] DC Generic.Role deployment successful.NTFSDC should have ADWS running" executed="True" result="Success" success="True" time="0.3493" asserts="0" description="NTFSDC should have ADWS running">
+                    <results>
+                      <test-case description="NTFSDC should have ADWS running" name="[PSUGNTFS] DC Generic.Role deployment successful.NTFSDC should have ADWS running(NTFSDC)" time="0.3493" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] DC Generic.Role deployment successful.NTFSDC should respond to ADWS calls" executed="True" result="Success" success="True" time="0.337" asserts="0" description="NTFSDC should respond to ADWS calls">
+                    <results>
+                      <test-case description="NTFSDC should respond to ADWS calls" name="[PSUGNTFS] DC Generic.Role deployment successful.NTFSDC should respond to ADWS calls(NTFSDC)" time="0.337" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="[PSUGNTFS] RootDC specific" executed="True" result="Success" success="True" time="1.2641" asserts="0" description="[PSUGNTFS] RootDC specific">
+            <results>
+              <test-suite type="ParameterizedTest" name="[PSUGNTFS] RootDC specific.NTFSDC should hold PDC emulator FSMO role" executed="True" result="Success" success="True" time="0.5308" asserts="0" description="NTFSDC should hold PDC emulator FSMO role">
+                <results>
+                  <test-case description="NTFSDC should hold PDC emulator FSMO role" name="[PSUGNTFS] RootDC specific.NTFSDC should hold PDC emulator FSMO role(NTFSDC)" time="0.5308" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\Routing.tests.ps1" executed="True" result="Success" success="True" time="18.0328" asserts="0" description="C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.45.0\internal\tests\Routing.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="[PSUGNTFS] Routing" executed="True" result="Success" success="True" time="17.9583" asserts="0" description="[PSUGNTFS] Routing">
+            <results>
+              <test-suite type="TestFixture" name="[PSUGNTFS] Routing.Role deployment successful" executed="True" result="Success" success="True" time="17.9546" asserts="0" description="[PSUGNTFS] Routing.Role deployment successful">
+                <results>
+                  <test-case description="[Routing] Should return the correct amount of machines" name="[PSUGNTFS] Routing.Role deployment successful.[Routing] Should return the correct amount of machines" time="0.0272" asserts="0" success="True" result="Success" executed="True" />
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] Routing.Role deployment successful.[NTFSRouter] Should have Routing feature installed" executed="True" result="Success" success="True" time="10.6108" asserts="0" description="[NTFSRouter] Should have Routing feature installed">
+                    <results>
+                      <test-case description="[NTFSRouter] Should have Routing feature installed" name="[PSUGNTFS] Routing.Role deployment successful.[NTFSRouter] Should have Routing feature installed(NTFSRouter)" time="10.6108" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="ParameterizedTest" name="[PSUGNTFS] Routing.Role deployment successful.[NTFSRouter] Should be connected to the internet" executed="True" result="Success" success="True" time="7.3124" asserts="0" description="[NTFSRouter] Should be connected to the internet">
+                    <results>
+                      <test-case description="[NTFSRouter] Should be connected to the internet" name="[PSUGNTFS] Routing.Role deployment successful.[NTFSRouter] Should be connected to the internet(NTFSRouter)" time="7.3124" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
