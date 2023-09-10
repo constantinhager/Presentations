@@ -1,32 +1,32 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.169.0/containers/powershell
 {
-    "name": "PSU",
-    "image": "ironmansoftware/universal:latest",
-    "workspaceFolder": "/home",
-    // Set *default* container specific settings.json values on container create.
-    "customizations": {
-        "vscode": {
-            "settings": {
-                // Generate when first login into PSU
-                "powerShellUniversal.appToken": ""
-            },
-            "extensions": [
-                "ms-vscode.powershell",
-                "ironmansoftware.powershell-universal"
-            ]
-        }
-    },
-    "postStartCommand": "./Universal/Universal.Server",
-    // Use 'forwardPorts' to make a list of ports inside the container available locally
-    "forwardPorts": [
-        5000
-    ],
-    "mounts": [
-        "source=E:\\GIT\\Presentations\\PowerShellUniversal\\data,target=/root,type=bind,consistency=cached"
-    ],
-    "containerEnv": {
-        "TZ": "Europe/Berlin",
-        "NodeName": "DockerNode"
-    }
+	"name": "PSU",
+	"image": "ironmansoftware/universal:latest",
+	"workspaceFolder": "/root",
+	// Set *default* container specific settings.json values on container create.
+	"customizations": {
+		"vscode": {
+			"settings": {
+				// Generate when first login into PSU
+				"powerShellUniversal.appToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9oYXNoIjoiOGM0ZDFkYTItZThmMS00YTM5LWI1MGMtNmVkYTE0Y2M5MDZmIiwic3ViIjoiUG93ZXJTaGVsbFVuaXZlcnNhbCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJuYmYiOjE2OTA5MjE0OTcsImV4cCI6MTcyMjQ1NzQ0MCwiaXNzIjoiSXJvbm1hblNvZnR3YXJlIiwiYXVkIjoiUG93ZXJTaGVsbFVuaXZlcnNhbCJ9.7Kk5SZtw8Wr1hJzxvfCsd71OmbvqY4hQ-irdwJOaGSI"
+			},
+			"extensions": [
+				"ms-vscode.powershell",
+				"ironmansoftware.powershell-universal"
+			]
+		}
+	},
+	"postStartCommand": "/home/Universal/Universal.Server",
+	// Use 'forwardPorts' to make a list of ports inside the container available locally
+	"forwardPorts": [
+		5000
+	],
+	"mounts": [
+		"source=E:\\GIT\\Presentations\\PowerShellUserGroup-2023-09-14\\data,target=/root,type=bind,consistency=cached"
+	],
+	"containerEnv": {
+		"TZ": "Europe/Berlin",
+		"NodeName": "DockerNode"
+	}
 }
