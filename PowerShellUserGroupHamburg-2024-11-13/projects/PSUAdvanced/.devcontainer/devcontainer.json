@@ -1,0 +1,57 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+    "name": "psu",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "psu",
+    "workspaceFolder": "/root",
+    "shutdownAction": "none",
+    //"features": {},
+    //"postCreateCommand": "/home/Universal/Universal.Server",
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "pwsh",
+                "powerShellUniversal.connections": [
+                    {
+                        "name": "Container",
+                        "url": "http://localhost:5000",
+                        "appToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9oYXNoIjoiYWMwMTgzNDktMjRiOS00ZjU0LWI5NWEtZDI4MmFkMTc0ODdkIiwic3ViIjoiUG93ZXJTaGVsbFVuaXZlcnNhbCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJuYmYiOjE3MzEyNDE0NjksImV4cCI6MTczOTAxNzQ2OSwiaXNzIjoiSXJvbm1hblNvZnR3YXJlIiwiYXVkIjoiUG93ZXJTaGVsbFVuaXZlcnNhbCJ9.TyJStjxQAsZQ0w7jpkUPIiAaTuZxfTNdQhcErO_f0g8"
+                    }
+                ],
+                "mssql.connections": [
+                    {
+                        "server": "db",
+                        "database": "",
+                        "authenticationType": "SqlLogin",
+                        "user": "sa",
+                        "password": "",
+                        "emptyPasswordInput": false,
+                        "savePassword": true,
+                        "profileName": "db",
+                        "encrypt": "Mandatory",
+                        "trustServerCertificate": true,
+                        "connectTimeout": 15,
+                        "commandTimeout": 30,
+                        "applicationName": "vscode-mssql"
+                    }
+                ]
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "ms-vscode.powershell",
+                "ironmansoftware.powershell-universal",
+                "ms-mssql.mssql"
+            ]
+        }
+    },
+    //// Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        5000
+    ]
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}

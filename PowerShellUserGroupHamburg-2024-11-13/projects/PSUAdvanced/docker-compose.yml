@@ -1,0 +1,30 @@
+services:
+  psu:
+    image: ironmansoftware/universal:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - TZ=Europe/Berlin
+      - Plugins__0=SQL
+      - Data__ConnectionString=Data Source=db;Initial Catalog=PSU;User Id=sa;Password=Password123;TrustServerCertificate=True;Trusted_Connection=True;integrated security=false;
+      - NodeName=PSUAdvanced
+    volumes:
+      - E:\GIT\Presentations\PowerShellUserGroupHamburg-2024-11-13\projects\PSUAdvanced\data:/root
+    networks:
+      - default
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123
+      - MSSQL_PID=Developer
+    volumes:
+      - E:\GIT\Presentations\PowerShellUserGroupHamburg-2024-11-13\projects\PSUAdvanced\datafiles:/var/opt/mssql/data
+    networks:
+      - default
+
+networks:
+  default:
