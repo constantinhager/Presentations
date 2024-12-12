@@ -1,0 +1,1 @@
+﻿New-PSUApp -Name "Req Res Dashboard" -FilePath "dashboards/Req Res Dashboard/Req Res Dashboard.ps1" -BaseUrl "/reqres" -Role @('Administrator') -AutoDeploy -Description "A Dashboard for displaying Req Res sample data"
