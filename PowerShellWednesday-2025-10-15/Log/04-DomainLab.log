@@ -1,0 +1,94 @@
+22:08:28|00:00:00|00:00:00.000| Initialization
+22:08:28|00:00:00|00:00:00.043| - Host operating system version: 'Microsoft Windows Server 2025 Datacenter, 10.0.26100.0'
+22:08:28|00:00:00|00:00:00.048| - Creating new lab definition with name 'PSWedDomainLab'
+22:08:28|00:00:00|00:00:00.057| - Location of lab definition files will be 'E:\AutomatedLab/Labs/PSWedDomainLab'
+22:08:28|00:00:00|00:00:00.161| - Location of LabSources folder is 'E:\LabSources'
+22:08:28|00:00:00|00:00:00.000| - Auto-adding ISO files
+22:08:28|00:00:00|00:00:00.135|   - Added 'E:\LabSources\ISOs\en-us_windows_11_business_editions_version_25h2_x64_dvd_41c521e7.iso'
+22:08:28|00:00:00|00:00:00.140|   - Added 'E:\LabSources\ISOs\en-us_windows_server_2025_updated_sep_2025_x64_dvd_6d1ad20d.iso'
+22:08:28|00:00:00|00:00:00.184|   - Done
+22:08:28|00:00:00|00:00:00.188| - Path for VMs specified as 'E:\AutomatedLab-Vms'
+22:08:29|00:00:01|00:00:00.000| - Adding Hyper-V machine definition 'DomainLabDC' (Roles: RootDC)
+22:08:29|00:00:01|00:00:00.245|   - Done
+22:08:29|00:00:01|00:00:00.000| - Adding Hyper-V machine definition 'DomainLabMS'
+22:08:30|00:00:01|00:00:00.241|   - Done
+22:08:30|00:00:02|00:00:00.623| Estimated (additional) local drive space needed for all machines: 4 GB
+22:08:30|00:00:02|00:00:00.660| Location of Hyper-V machines will be 'E:\AutomatedLab-Vms'
+22:08:30|00:00:02|00:00:00.677| Done
+22:08:30|00:00:02|00:00:00.000| Validating lab definition
+22:08:32|00:00:03|00:00:01.144| - Could not invoke validator AutomatedLab.DomainMemberDns
+22:08:32|00:00:04|00:00:01.924| - Success
+22:08:33|00:00:04|00:00:02.405| Lab 'PSWedDomainLab' hosted on 'HyperV' imported with 2 machines
+22:08:33|00:00:04|00:00:00.000| Creating virtual networks
+22:08:33|00:00:05|00:00:00.000| - Creating Hyper-V virtual network 'ADNatSwitch'
+22:08:33|00:00:05|00:00:00.124|   - The network switch 'ADNatSwitch' already exists, no changes will be made to configuration
+22:08:33|00:00:05|00:00:00.131|   - Done
+22:08:33|00:00:05|00:00:00.146| - done
+22:08:33|00:00:05|00:00:00.000| - Creating base images
+22:08:33|00:00:05|00:00:00.050|   - All base images were created previously
+22:08:35|00:00:06|00:00:01.348|   - Done
+22:08:35|00:00:06|00:00:01.378| - done
+22:08:35|00:00:06|00:00:00.000| - Creating Additional Disks
+22:08:36|00:00:08|00:00:01.817|   - Done
+22:08:36|00:00:08|00:00:00.000| - Creating VMs
+22:08:36|00:00:08|00:00:00.000|   - Waiting for all machines to finish installing
+22:08:36|00:00:08|00:00:00.000|     - Creating HyperV machine 'DomainLabDC'.....
+22:08:57|00:00:29|00:00:20.993|       - .........................Done
+22:14:05|00:05:37|00:00:00.000|     - Creating HyperV machine 'DomainLabMS'.....
+22:14:20|00:05:51|00:00:14.291|       - Done
+22:14:20|00:05:51|00:00:14.295|     - Done
+22:14:20|00:05:51|00:00:14.621|   - Done
+22:14:20|00:05:51|00:00:00.000| - Installing Root Domain Controllers
+22:14:20|00:05:52|00:00:00.099|   - Machines with RootDC role to be installed: 'DomainLabDC'
+22:14:20|00:05:52|00:00:00.145|   - Waiting for machines to start up..
+22:14:33|00:06:05|00:00:13.191|   - Waiting for Root Domain Controllers to complete installation of Active Directory and restart.......................done
+22:27:17|00:18:49|00:12:57.408|   - Root Domain Controllers have now restarted. Waiting for Active Directory to start up.......
+ConvertTo-Mask: Cannot validate argument on parameter 'MaskLength'. The argument is null, empty, or an element of the argument collection contains a null value. Supply a collection that does not contain any null values and then try the command again.
+Get-NetworkSummary: Cannot bind argument to parameter 'IPAddress' because it is an empty string.
+22:32:37|00:24:09|00:18:17.522|   - Done
+22:32:38|00:24:10|00:00:00.000| - Starting remaining machines
+22:32:38|00:24:10|00:00:00.004|   - Waiting for machines to start up..................................
+22:39:13|00:30:45|00:06:35.419|   - Done
+22:39:14|00:30:45|00:00:00.000| - Installing RDS certificates of lab machines
+22:39:16|00:30:47|00:00:02.383|   - ...
+22:39:32|00:31:03|00:00:18.067|   - Done
+22:39:32|00:31:03|00:00:00.000| - Adding lab machines to C:\Users\azureuser/.ssh/known_hosts
+22:39:37|00:31:09|00:00:05.529|   - Done
+
+Starting discovery in 58 files.
+Discovery found 61 tests in 2.68s.
+Running tests.
+[+] C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.59.0\tests\00General.tests.ps1 2.67s (119ms|2.45s)
+[+] C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.59.0\tests\RootDC.tests.ps1 4.82s (2.48s|2.26s)
+Tests completed in 10.01s
+Tests Passed: 5, Failed: 0, Skipped: 0, Inconclusive: 0, NotRun: 56
+22:39:48|00:31:20|00:00:16.597| - ---------------------------------------------------------------------------
+22:39:48|00:31:20|00:00:16.601| - Setting up the lab took 0 hour, 31 minutes and 20 seconds
+22:39:48|00:31:20|00:00:16.680| - Lab name is 'PSWedDomainLab' and is hosted on 'HyperV'. There are 2 machine(s) and 1 network(s) defined.
+22:39:48|00:31:20|00:00:16.748| - ----------------------------- Network Summary -----------------------------
+22:39:48|00:31:20|00:00:16.764| -
+22:39:48|00:31:20|00:00:16.776| - Name        AddressSpace    SwitchType AdapterName             IssuedIpAddresses
+22:39:48|00:31:20|00:00:16.791| - ----        ------------    ---------- -----------             -----------------
+22:39:48|00:31:20|00:00:16.801| - ADNatSwitch 192.168.80.0/24   Internal vEthernet (ADNatSwitch)                 0
+22:39:48|00:31:20|00:00:16.805| -
+22:39:48|00:31:20|00:00:16.824| - ----------------------------- Domain Summary ------------------------------
+22:39:48|00:31:20|00:00:16.842| -
+22:39:48|00:31:20|00:00:16.856| - Name     Administrator Password  RootDomain
+22:39:48|00:31:20|00:00:16.865| - ----     ------------- --------  ----------
+22:39:48|00:31:20|00:00:16.883| - ch.local Administrator Somepass1
+22:39:49|00:31:20|00:00:16.907| -
+22:39:49|00:31:20|00:00:16.928| - ------------------------- Virtual Machine Summary -------------------------
+22:39:49|00:31:20|00:00:16.960| -
+22:39:49|00:31:20|00:00:16.971| - Name        DomainName IpV4Address Roles    OperatingSystem                                     Local Admin   Password
+22:39:49|00:31:20|00:00:16.979| - ----        ---------- ----------- -----    ---------------                                     -----------   --------
+22:39:49|00:31:20|00:00:16.988| - DomainLabDC ch.local               {RootDC} Windows Server 2025 Datacenter (Desktop Experience) Administrator Somepass1
+22:39:49|00:31:20|00:00:16.993| - DomainLabMS ch.local               {}       Windows Server 2025 Datacenter (Desktop Experience) Administrator Somepass1
+22:39:49|00:31:20|00:00:17.004| -
+22:39:49|00:31:20|00:00:17.018| - ---------------------------------------------------------------------------
+22:39:49|00:31:20|00:00:17.029| - Please use the following cmdlets to interact with the machines:
+22:39:49|00:31:20|00:00:17.033| - - Get-LabVMStatus, Get, Start, Restart, Stop, Wait, Connect, Save-LabVM and Wait-LabVMRestart (some of them provide a Wait switch)
+22:39:49|00:31:20|00:00:17.046| - - Invoke-LabCommand, Enter-LabPSSession, Install-LabSoftwarePackage and Install-LabWindowsFeature (do not require credentials and
+22:39:49|00:31:20|00:00:17.066| -   work the same way with Hyper-V and Azure)
+22:39:49|00:31:20|00:00:17.080| - - Checkpoint-LabVM, Restore-LabVMSnapshot and Get-LabVMSnapshot (only for Hyper-V)
+22:39:49|00:31:20|00:00:17.159| - - Get-LabInternetFile downloads files from the internet and places them on LabSources (locally or on Azure)
+22:39:49|00:31:20|00:00:17.261| - ---------------------------------------------------------------------------
