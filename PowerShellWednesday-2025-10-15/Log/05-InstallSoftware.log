@@ -1,0 +1,75 @@
+16:05:29|00:00:00|00:00:00.000| Initialization
+16:05:31|00:00:01|00:00:01.566| - Host operating system version: 'Microsoft Windows Server 2025 Datacenter, 10.0.26100.0'
+16:05:31|00:00:01|00:00:01.572| - Creating new lab definition with name 'PSWedInstallSoftwareLab'
+16:05:31|00:00:01|00:00:01.584| - Location of lab definition files will be 'E:\AutomatedLab/Labs/PSWedInstallSoftwareLab'
+16:05:31|00:00:01|00:00:01.830| - Location of LabSources folder is 'E:\LabSources'
+16:05:31|00:00:01|00:00:00.000| - Auto-adding ISO files
+16:05:33|00:00:03|00:00:01.806|   - Added 'E:\LabSources\ISOs\en-us_windows_11_business_editions_version_25h2_x64_dvd_41c521e7.iso'
+16:05:33|00:00:03|00:00:01.833|   - Added 'E:\LabSources\ISOs\en-us_windows_server_2025_updated_sep_2025_x64_dvd_6d1ad20d.iso'
+16:05:33|00:00:03|00:00:01.840|   - Done
+16:05:33|00:00:03|00:00:01.873| - Path for VMs specified as 'E:\AutomatedLab-Vms'
+16:05:36|00:00:06|00:00:00.000| - Adding Hyper-V machine definition 'InstallSWWin11'
+16:05:39|00:00:09|00:00:02.659|   - Done
+16:05:39|00:00:10|00:00:03.244| Estimated (additional) local drive space needed for all machines: 2 GB
+16:05:39|00:00:10|00:00:03.282| Location of Hyper-V machines will be 'E:\AutomatedLab-Vms'
+16:05:40|00:00:10|00:00:03.592| Done
+16:05:42|00:00:12|00:00:00.000| Validating lab definition
+16:05:53|00:00:23|00:00:11.583| - Success
+16:05:54|00:00:24|00:00:11.996| Lab 'PSWedInstallSoftwareLab' hosted on 'HyperV' imported with 1 machines
+16:05:54|00:00:24|00:00:00.000| Creating virtual networks
+16:05:54|00:00:24|00:00:00.000| - Creating Hyper-V virtual network 'NATSwitch'
+16:05:54|00:00:25|00:00:00.244|   - The network switch 'NATSwitch' already exists, no changes will be made to configuration
+16:05:54|00:00:25|00:00:00.273|   - Done
+16:05:54|00:00:25|00:00:00.286| - done
+16:05:54|00:00:25|00:00:00.000| - Creating base images
+16:05:54|00:00:25|00:00:00.071|   - All base images were created previously
+16:05:54|00:00:25|00:00:00.094|   - Done
+16:05:54|00:00:25|00:00:00.099| - done
+16:05:54|00:00:25|00:00:00.000| - Creating Additional Disks
+16:05:56|00:00:26|00:00:01.322|   - Done
+16:05:56|00:00:26|00:00:00.000| - Creating VMs
+16:05:56|00:00:26|00:00:00.000|   - Waiting for all machines to finish installing
+16:05:56|00:00:26|00:00:00.000|     - Creating HyperV machine 'InstallSWWin11'.....
+16:06:43|00:01:13|00:00:46.755|       - Done
+16:06:43|00:01:13|00:00:46.758|     - Done
+16:06:43|00:01:13|00:00:46.993|   - Done
+16:06:44|00:01:14|00:00:00.000| - Starting remaining machines
+16:06:44|00:01:14|00:00:00.005|   - Waiting for machines to start up..................................................................
+16:18:03|00:12:33|00:11:19.057|   - Done
+16:18:03|00:12:33|00:00:00.000| - Installing RDS certificates of lab machines
+16:18:04|00:12:34|00:00:00.924|   - ...
+16:18:20|00:12:50|00:00:17.450|   - Done
+
+Starting discovery in 58 files.
+Discovery found 58 tests in 10.4s.
+Running tests.
+[+] C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.59.0\tests\00General.tests.ps1 3.97s (736ms|2.87s)
+Tests completed in 13.96s
+Tests Passed: 1, Failed: 0, Skipped: 0, Inconclusive: 0, NotRun: 57
+16:35:22|00:00:42|00:00:00.000| - Installing software package 'E:\LabSources\SoftwarePackages\7z2501-x64.msi' on machines 'InstallSWWin11'
+16:35:23|00:00:42|00:00:00.179|   - Copying files and initiating setup on 'InstallSWWin11' and waiting for completion..
+16:35:38|00:00:58|00:00:16.112|   - Installation done
+16:18:38|00:13:08|00:00:35.331| - ---------------------------------------------------------------------------
+16:18:38|00:13:08|00:00:35.339| - Setting up the lab took 0 hour, 13 minutes and 8 seconds
+16:18:38|00:13:08|00:00:35.352| - Lab name is 'PSWedInstallSoftwareLab' and is hosted on 'HyperV'. There are 1 machine(s) and 1 network(s) defined.
+16:18:38|00:13:08|00:00:35.365| - ----------------------------- Network Summary -----------------------------
+16:18:38|00:13:08|00:00:35.456| -
+16:18:38|00:13:09|00:00:35.472| - Name      AddressSpace     SwitchType AdapterName           IssuedIpAddresses
+16:18:38|00:13:09|00:00:35.532| - ----      ------------     ---------- -----------           -----------------
+16:18:38|00:13:09|00:00:35.541| - NATSwitch 192.168.100.0/24   Internal vEthernet (NATSwitch)                 0
+16:18:38|00:13:09|00:00:35.547| -
+16:18:38|00:13:09|00:00:35.558| - ----------------------------- Domain Summary ------------------------------
+16:18:38|00:13:09|00:00:35.565| - ------------------------- Virtual Machine Summary -------------------------
+16:18:39|00:13:09|00:00:35.769| -
+16:18:39|00:13:09|00:00:35.773| - Name           DomainName IpV4Address Roles OperatingSystem Local Admin   Password
+16:18:39|00:13:09|00:00:35.779| - ----           ---------- ----------- ----- --------------- -----------   --------
+16:18:39|00:13:09|00:00:35.782| - InstallSWWin11                        {}    Windows 11 Pro  Administrator Somepass1
+16:18:39|00:13:09|00:00:35.789| -
+16:18:39|00:13:09|00:00:35.792| - ---------------------------------------------------------------------------
+16:18:39|00:13:09|00:00:35.802| - Please use the following cmdlets to interact with the machines:
+16:18:39|00:13:09|00:00:35.809| - - Get-LabVMStatus, Get, Start, Restart, Stop, Wait, Connect, Save-LabVM and Wait-LabVMRestart (some of them provide a Wait switch)
+16:18:39|00:13:09|00:00:35.880| - - Invoke-LabCommand, Enter-LabPSSession, Install-LabSoftwarePackage and Install-LabWindowsFeature (do not require credentials and
+16:18:39|00:13:09|00:00:35.887| -   work the same way with Hyper-V and Azure)
+16:18:39|00:13:09|00:00:35.899| - - Checkpoint-LabVM, Restore-LabVMSnapshot and Get-LabVMSnapshot (only for Hyper-V)
+16:18:39|00:13:09|00:00:35.905| - - Get-LabInternetFile downloads files from the internet and places them on LabSources (locally or on Azure)
+16:18:39|00:13:09|00:00:35.933| - ---------------------------------------------------------------------------

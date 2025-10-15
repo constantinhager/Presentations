@@ -1,0 +1,77 @@
+13:15:36|00:00:00|00:00:00.000| Initialization
+13:15:37|00:00:00|00:00:00.799| - Host operating system version: 'Microsoft Windows Server 2025 Datacenter, 10.0.26100.0'
+13:15:37|00:00:00|00:00:00.804| - Creating new lab definition with name 'PSWedSimpleLab'
+13:15:37|00:00:00|00:00:00.815| - Location of lab definition files will be 'E:\AutomatedLab/Labs/PSWedSimpleLab'
+13:15:38|00:00:01|00:00:00.000| - Performing update of SysInternals suite and lab sources directory now
+13:16:15|00:00:38|00:00:36.752|   - SysInternals Suite has been updated and placed in 'E:\LabSources\Tools\SysInternals'
+13:16:15|00:00:38|00:00:37.112| - Location of LabSources folder is 'E:\LabSources'
+13:16:16|00:00:39|00:00:00.000| - Auto-adding ISO files
+13:16:17|00:00:40|00:00:01.082|   - Scanning 2 files for operating systemsFound 14 OS images.
+13:17:06|00:01:30|00:00:50.438|   - Added 'E:\LabSources\ISOs\en-us_windows_11_business_editions_version_25h2_x64_dvd_41c521e7.iso'
+13:17:06|00:01:30|00:00:50.463|   - Added 'E:\LabSources\ISOs\en-us_windows_server_2025_updated_sep_2025_x64_dvd_6d1ad20d.iso'
+13:17:06|00:01:30|00:00:50.469|   - Done
+13:17:06|00:01:30|00:00:50.479| - Path for VMs specified as 'E:\AutomatedLab-Vms'
+13:17:07|00:01:30|00:00:00.000| - Adding Hyper-V machine definition 'Win11'
+13:17:10|00:01:33|00:00:02.766|   - Done
+13:17:10|00:01:33|00:00:03.130| Estimated (additional) local drive space needed for all machines: 2 GB
+13:17:10|00:01:33|00:00:03.152| Location of Hyper-V machines will be 'E:\AutomatedLab-Vms'
+13:17:10|00:01:34|00:00:03.379| Done
+13:17:11|00:01:34|00:00:00.000| Validating lab definition
+13:17:21|00:01:44|00:00:10.523| - Success
+13:17:22|00:01:45|00:00:11.187| Lab 'PSWedSimpleLab' hosted on 'HyperV' imported with 1 machines
+13:17:22|00:01:46|00:00:00.000| Creating virtual networks
+13:17:22|00:01:46|00:00:00.000| - Creating Hyper-V virtual network 'NATSwitch'
+13:17:23|00:01:46|00:00:00.284|   - The network switch 'NATSwitch' already exists, no changes will be made to configuration
+13:17:23|00:01:46|00:00:00.290|   - Done
+13:17:23|00:01:46|00:00:00.351| - done
+13:17:23|00:01:46|00:00:00.000| - Creating base images
+13:17:26|00:01:49|00:00:00.000|   - Creating base image for operating system 'Windows 11 Pro'..............................
+13:27:55|00:12:18|00:10:28.656|     - Finished creating base image
+13:27:56|00:12:19|00:10:29.991|   - Done
+13:27:56|00:12:19|00:10:29.998| - done
+13:27:56|00:12:19|00:00:00.000| - Creating Additional Disks
+13:27:58|00:12:21|00:00:01.841|   - Done
+13:27:58|00:12:21|00:00:00.000| - Creating VMs
+13:27:58|00:12:21|00:00:00.181|   - The hosts file has been updated with 1 records. Clean them up using 'Remove-Lab' or manually if needed
+13:27:58|00:12:21|00:00:00.000|   - Waiting for all machines to finish installing
+13:27:58|00:12:21|00:00:00.000|     - Creating HyperV machine 'Win11'.....
+13:28:13|00:12:36|00:00:14.679|       - Done
+13:28:13|00:12:36|00:00:14.683|     - Done
+13:28:13|00:12:36|00:00:15.119|   - Done
+13:28:14|00:12:37|00:00:00.000| - Starting remaining machines
+16:17:58|00:00:44|00:00:00.068|   - Waiting for machines to start up.....................................................................
+16:31:11|00:13:58|00:13:13.968|   - Done
+16:31:11|00:13:58|00:00:00.000| - Installing RDS certificates of lab machines
+16:31:14|00:14:00|00:00:02.296|   - ....
+16:31:46|00:14:32|00:00:34.269|   - Done
+
+Starting discovery in 58 files.
+Discovery found 58 tests in 11.47s.
+Running tests.
+[+] C:\Program Files\WindowsPowerShell\Modules\AutomatedLabTest\5.59.0\tests\00General.tests.ps1 5.44s (573ms|4.71s)
+Tests completed in 16.75s
+Tests Passed: 1, Failed: 0, Skipped: 0, Inconclusive: 0, NotRun: 57
+16:32:04|00:14:50|00:00:52.407| - ---------------------------------------------------------------------------
+16:32:04|00:14:50|00:00:52.417| - Setting up the lab took 0 hour, 14 minutes and 50 seconds
+16:32:04|00:14:50|00:00:52.423| - Lab name is 'PSWedSimpleLab' and is hosted on 'HyperV'. There are 1 machine(s) and 1 network(s) defined.
+16:32:04|00:14:50|00:00:52.426| - ----------------------------- Network Summary -----------------------------
+16:32:04|00:14:50|00:00:52.433| -
+16:32:04|00:14:50|00:00:52.442| - Name      AddressSpace     SwitchType AdapterName           IssuedIpAddresses
+16:32:04|00:14:50|00:00:52.456| - ----      ------------     ---------- -----------           -----------------
+16:32:04|00:14:50|00:00:52.472| - NATSwitch 192.168.100.0/24   Internal vEthernet (NATSwitch)                 0
+16:32:04|00:14:50|00:00:52.477| -
+16:32:04|00:14:50|00:00:52.491| - ----------------------------- Domain Summary ------------------------------
+16:32:04|00:14:50|00:00:52.498| - ------------------------- Virtual Machine Summary -------------------------
+16:32:04|00:14:50|00:00:52.538| -
+16:32:04|00:14:50|00:00:52.547| - Name           DomainName IpV4Address Roles OperatingSystem Local Admin   Password
+16:32:04|00:14:50|00:00:52.556| - ----           ---------- ----------- ----- --------------- -----------   --------
+16:32:04|00:14:50|00:00:52.566| - SimpleLabWin11                        {}    Windows 11 Pro  Administrator Somepass1
+16:32:04|00:14:50|00:00:52.570| -
+16:32:04|00:14:50|00:00:52.575| - ---------------------------------------------------------------------------
+16:32:04|00:14:50|00:00:52.583| - Please use the following cmdlets to interact with the machines:
+16:32:04|00:14:50|00:00:52.587| - - Get-LabVMStatus, Get, Start, Restart, Stop, Wait, Connect, Save-LabVM and Wait-LabVMRestart (some of them provide a Wait switch)
+16:32:04|00:14:50|00:00:52.590| - - Invoke-LabCommand, Enter-LabPSSession, Install-LabSoftwarePackage and Install-LabWindowsFeature (do not require credentials and
+16:32:04|00:14:51|00:00:52.673| -   work the same way with Hyper-V and Azure)
+16:32:04|00:14:51|00:00:52.678| - - Checkpoint-LabVM, Restore-LabVMSnapshot and Get-LabVMSnapshot (only for Hyper-V)
+16:32:04|00:14:51|00:00:52.691| - - Get-LabInternetFile downloads files from the internet and places them on LabSources (locally or on Azure)
+16:32:04|00:14:51|00:00:52.703| - ---------------------------------------------------------------------------

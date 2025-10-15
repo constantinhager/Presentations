@@ -17,3 +17,4 @@ Repository for all my presentations
 | 2023-09-14 | PowerShell UserGroup innsalzach - PowerShell Universal v4|
 | 2024-11-13 | PowerShell UserGroup Hamburg - Creating a Dev Environment for PowerShell Universal|
 | 2024-12-12 | PowerShell UserGroup innsalzach - PowerShell Universal Live Coding|
+| 2025-10-15 | PowerShell Wednesday - AutomatedLab|
