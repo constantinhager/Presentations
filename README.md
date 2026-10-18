@@ -18,3 +18,4 @@ Repository for all my presentations
 | 2024-11-13 | PowerShell UserGroup Hamburg - Creating a Dev Environment for PowerShell Universal|
 | 2024-12-12 | PowerShell UserGroup innsalzach - PowerShell Universal Live Coding|
 | 2025-10-15 | PowerShell Wednesday - AutomatedLab|
+| 2026-10-09 | Semperis PowerShell UserGroup - VSCode Everywhere - Setup once use anywhere |
